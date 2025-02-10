@@ -15,6 +15,9 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
     devDependencies:
+      '@types/hammerjs':
+        specifier: ^2.0.46
+        version: 2.0.46
       eslint:
         specifier: ^4.19.1
         version: 4.19.1
@@ -27,6 +30,9 @@ importers:
       eslint-plugin-react:
         specifier: ^7.9.1
         version: 7.37.4(eslint@4.19.1)
+      hammerjs:
+        specifier: ^2.0.8
+        version: 2.0.8
       npm-run-all:
         specifier: ^4.0.1
         version: 4.1.5
@@ -54,6 +60,9 @@ importers:
       serve:
         specifier: ^6.0.2
         version: 6.5.8
+      throttleit:
+        specifier: ^2.1.0
+        version: 2.1.0
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -313,6 +322,9 @@ packages:
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@types/hammerjs@2.0.46':
+    resolution: {integrity: sha512-ynRvcq6wvqexJ9brDMS4BnBLzmr0e14d6ZJTEShTBWKymQiHwlAyGu0ZPEFI2Fh1U53F7tN9ufClWM5KvqkKOw==}
 
   acorn-jsx@3.0.1:
     resolution: {integrity: sha512-AU7pnZkguthwBjKgCg6998ByQNIMjbuDQZ8bb78QAFZwPfmKia8AIzgY/gWgqCjnht8JLdXmB4YxA0KaV60ncQ==}
@@ -941,6 +953,10 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
+    engines: {node: '>=0.8.0'}
 
   handlebars@4.0.11:
     resolution: {integrity: sha512-yrsPfXULrvTP3Aw+zLpett0LUyv2PS/k1jj2UCpYkFElPhMEhspxrCAl4hKGt+vyDjvpxleyYUPF4AMSjCdnhQ==}
@@ -1819,6 +1835,10 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
+  throttleit@2.1.0:
+    resolution: {integrity: sha512-nt6AMGKW1p/70DF/hGBdJB57B8Tspmbp5gfJ8ilhLnt7kkr2ye7hzD6NVG8GGErk2HWF34igrL2CXmNIkzKqKw==}
+    engines: {node: '>=18'}
+
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
 
@@ -2137,6 +2157,8 @@ snapshots:
     optional: true
 
   '@types/estree@1.0.6': {}
+
+  '@types/hammerjs@2.0.46': {}
 
   acorn-jsx@3.0.1:
     dependencies:
@@ -3003,6 +3025,8 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
+
+  hammerjs@2.0.8: {}
 
   handlebars@4.0.11:
     dependencies:
@@ -3985,6 +4009,8 @@ snapshots:
       execa: 0.7.0
 
   text-table@0.2.0: {}
+
+  throttleit@2.1.0: {}
 
   through@2.3.8: {}
 
