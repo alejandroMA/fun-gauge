@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "build": "rollup -c",
     "build2": "microbundle --name funGauge",
-    "dev": "vite example",
+    "dev": "vite playgrounds",
     "dev-build": "webpack --progress",
     "server": "serve .",
     "dev-watch": "webpack --progress --watch -d"

@@ -1,10 +1,9 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import { minify } from 'uglify-es';
-import uglify from 'rollup-plugin-uglify';
-import babel from 'rollup-plugin-babel';
-import pkg from './package.json';
-
+import resolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
+import { minify } from 'uglify-es'
+import uglify from 'rollup-plugin-uglify'
+import babel from 'rollup-plugin-babel'
+import pkg from './package.json'
 
 export default [
     // browser-friendly UMD build
@@ -15,17 +14,20 @@ export default [
             resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
             babel({
-              // babelrc: false,
-              exclude: [],
-              include:  ['./src/**', './node_modules/**'],
+                // babelrc: false,
+                exclude: [],
+                include: ['./src/**', './node_modules/**']
             }),
-            uglify({
-                ie8: false,
-                toplevel: true,
-                output: {
-                    ecma: 5
-                }
-            }, minify)
+            uglify(
+                {
+                    ie8: false,
+                    toplevel: true,
+                    output: {
+                        ecma: 5
+                    }
+                },
+                minify
+            )
         ],
         output: {
             file: pkg.browser,
@@ -45,8 +47,8 @@ export default [
             // resolve(), // so Rollup can find `ms`
             // commonjs(), // so Rollup can convert `ms` to an ES module
             babel({
-              exclude: [],
-              include:  ['./src/**', './node_modules/**'],
+                exclude: [],
+                include: ['./src/**', './node_modules/**']
             })
         ],
         output: [
@@ -54,4 +56,4 @@ export default [
             { file: pkg.module, format: 'es' }
         ]
     }
-];
+]
