@@ -11,10 +11,13 @@ importers:
       d3-color:
         specifier: ^1.2.0
         version: 1.4.1
-      merge-options:
-        specifier: ^1.0.0
-        version: 1.0.1
+      ts-deepmerge:
+        specifier: ^7.0.2
+        version: 7.0.2
     devDependencies:
+      '@types/d3-color':
+        specifier: ^3.1.3
+        version: 3.1.3
       '@types/hammerjs':
         specifier: ^2.0.46
         version: 2.0.46
@@ -319,6 +322,9 @@ packages:
     resolution: {integrity: sha512-0PVwmgzZ8+TZ9oGBmdZoQVXflbvuwzN/HRclujpl4N/q3i+y0lqLw8n1bXA8ru3sApDjlmONaNAuYr38y1Kr9w==}
     cpu: [x64]
     os: [win32]
+
+  '@types/d3-color@3.1.3':
+    resolution: {integrity: sha512-iO90scth9WAbmgv7ogoq57O9YpKmFBbmoEoCHDB2xMBY0+/KVrqAaCDyCE16dUspeOvIxFFRI+0sEtqDqy2b4A==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -1115,10 +1121,6 @@ packages:
     resolution: {integrity: sha512-lZhclumE1G6VYD8VHe35wFaIif+CTy5SJIi5+3y4psDgWu4wPDoBhF8NxUOinEc7pHgiTsT6MaBb92rKhhD+Xw==}
     engines: {node: '>= 0.4'}
 
-  is-plain-obj@1.1.0:
-    resolution: {integrity: sha512-yvkRyxmFKEOQ4pNXCmJG5AEQNlXJS5LaONXo5/cLdTZdWvsZ1ioJEonLGAosKlMWE8lwUy/bJzMjcw8az73+Fg==}
-    engines: {node: '>=0.10.0'}
-
   is-regex@1.2.1:
     resolution: {integrity: sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g==}
     engines: {node: '>= 0.4'}
@@ -1260,10 +1262,6 @@ packages:
   memorystream@0.3.1:
     resolution: {integrity: sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==}
     engines: {node: '>= 0.10.0'}
-
-  merge-options@1.0.1:
-    resolution: {integrity: sha512-iuPV41VWKWBIOpBsjoxjDZw8/GbSfZ2mk7N1453bwMrfzdrIk7EzBd+8UVR6rkw67th7xnk9Dytl3J+lHPdxvg==}
-    engines: {node: '>=4'}
 
   micro-compress@1.0.0:
     resolution: {integrity: sha512-1XM/LoxpfCq9mOgtuT5vwumSGXgCziaT+pZPT1o5Jx9CDc0o6YPma6ACyPuLjchnyi8o80AON7EAw5ZnKQLQyQ==}
@@ -1854,6 +1852,10 @@ packages:
     resolution: {integrity: sha512-WZGXGstmCWgeevgTL54hrCuw1dyMQIzWy7ZfqRJfSmJZBwklI15egmQytFP6bPidmw3M8d5yEowl1niq4vmqZw==}
     engines: {node: '>=0.10.0'}
 
+  ts-deepmerge@7.0.2:
+    resolution: {integrity: sha512-akcpDTPuez4xzULo5NwuoKwYRtjQJ9eoNfBACiBMaXwNAx7B1PKfe5wqUFJuW5uKzQ68YjDFwPaWHDG1KnFGsA==}
+    engines: {node: '>=14.13.1'}
+
   type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
     engines: {node: '>= 0.8.0'}
@@ -2155,6 +2157,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.34.6':
     optional: true
+
+  '@types/d3-color@3.1.3': {}
 
   '@types/estree@1.0.6': {}
 
@@ -3202,8 +3206,6 @@ snapshots:
       call-bound: 1.0.3
       has-tostringtag: 1.0.2
 
-  is-plain-obj@1.1.0: {}
-
   is-regex@1.2.1:
     dependencies:
       call-bound: 1.0.3
@@ -3339,10 +3341,6 @@ snapshots:
   math-intrinsics@1.1.0: {}
 
   memorystream@0.3.1: {}
-
-  merge-options@1.0.1:
-    dependencies:
-      is-plain-obj: 1.1.0
 
   micro-compress@1.0.0:
     dependencies:
@@ -4021,6 +4019,8 @@ snapshots:
   to-fast-properties@1.0.3: {}
 
   trim-right@1.0.1: {}
+
+  ts-deepmerge@7.0.2: {}
 
   type-check@0.3.2:
     dependencies:
