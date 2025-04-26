@@ -1,5 +1,7 @@
 import mergeOptions from 'merge-options'
 import hclInterpolator from './hclInterpolator.js'
+import { RoundedArcBoth } from '../src/roundedArc'
+
 
 export default function FunGauge(props) {
     let canvas = document.createElement('canvas')
@@ -222,51 +224,69 @@ export default function FunGauge(props) {
         ctx.stroke()
 
         // Gauge arc
-        ctx.beginPath()
-        ctx.strokeStyle = renderedColor
-        ctx.lineWidth = lineWidth
-        ctx.lineCap = 'round'
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI,
-            Math.PI + 0.001,
-            false
-        )
-        ctx.stroke()
+        // ctx.beginPath()
+        // ctx.strokeStyle = renderedColor
+        // ctx.lineWidth = lineWidth
+        // ctx.lineCap = 'round'
+        // ctx.arc(
+        //     W / 2,
+        //     H - lineWidth / 0.75,
+        //     radius,
+        //     Math.PI,
+        //     Math.PI + 0.001,
+        //     false
+        // )
+        // ctx.stroke()
 
-        ctx.beginPath()
-        ctx.strokeStyle = bgColor
-        ctx.lineWidth = lineWidth
-        ctx.lineCap = 'butt'
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI + 0.01,
-            Math.PI * 2,
-            false
-        )
-        ctx.stroke()
+        // ctx.beginPath()
+        // ctx.strokeStyle = bgColor
+        // ctx.lineWidth = lineWidth
+        // ctx.lineCap = 'butt'
+        // ctx.arc(
+        //     W / 2,
+        //     H - lineWidth / 0.75,
+        //     radius,
+        //     Math.PI + 0.01,
+        //     Math.PI * 2,
+        //     false
+        // )
+        // ctx.stroke()
 
-        ctx.beginPath()
-        ctx.strokeStyle = renderedColor
-        ctx.lineWidth = lineWidth
-        ctx.lineCap = 'butt'
-        // todo: get max
-        if (value >= 100) {
-            ctx.lineCap = 'round'
+        // ctx.beginPath()
+        // ctx.strokeStyle = renderedColor
+        // ctx.lineWidth = lineWidth
+        // ctx.lineCap = 'butt'
+        // // todo: get max
+        // if (value >= 100) {
+        //     ctx.lineCap = 'round'
+        // }
+        // ctx.arc(
+        //     W / 2,
+        //     H - lineWidth / 0.75,
+        //     radius,
+        //     Math.PI,
+        //     valueRadians,
+        //     false
+        // )
+        // ctx.stroke()
+
+        let capRadiusRatio = 3
+
+        if (value < 6) {
+            capRadiusRatio = 3 * (7 - value)
         }
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI,
-            valueRadians,
-            false
-        )
-        ctx.stroke()
+
+        RoundedArcBoth({
+            ctx: ctx,
+            bgColor: renderedColor,
+            x: W / 2,
+            y: H - lineWidth / 0.75,
+            lineWidth: lineWidth,
+            radius: radius,
+            startAngle: Math.PI,
+            endAngle: valueRadians,
+            capRadiusRatio: capRadiusRatio
+        })
 
         let textWidth = 0
         let text = ''
