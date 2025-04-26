@@ -1,7 +1,6 @@
 import mergeOptions from 'merge-options'
 import hclInterpolator from './hclInterpolator.js'
-import { RoundedArcBoth } from '../src/roundedArc'
-
+import { RoundedArcBoth, RoundedArcBGLeft, RoundedArcBGRight } from '../src/roundedArc'
 
 export default function FunGauge(props) {
     let canvas = document.createElement('canvas')
@@ -42,8 +41,7 @@ export default function FunGauge(props) {
         value = props.value
 
         let devicePixelRatio = window.devicePixelRatio || 1
-        let backingStoreRatio =
-            ctx.webkitBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
+        let backingStoreRatio = ctx.webkitBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
         let ratio = devicePixelRatio / backingStoreRatio
 
         if (props.width > 0) {
@@ -64,9 +62,7 @@ export default function FunGauge(props) {
         renderedValue = 0
         renderedColor = colorSelectors[0].color
 
-        renderingLoopID = requestAnimationFrame(() =>
-            render(renderedValue, renderedColor)
-        )
+        renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
         if (props.firstRenderDelay <= 0) {
             animateTo(value)
         } else {
@@ -157,36 +153,57 @@ export default function FunGauge(props) {
         // ctx.save();
 
         // Color maker cap 1
+        // let selector = colorSelectors[0]
+        // ctx.beginPath()
+        // ctx.strokeStyle = selector.color
+        // ctx.lineWidth = lineWidth * 1.5
+        // ctx.lineCap = 'round'
+        // ctx.arc(
+        //     W / 2,
+        //     H - lineWidth / 0.75,
+        //     radius,
+        //     Math.PI,
+        //     Math.PI + 0.001,
+        //     false
+        // )
+        // ctx.stroke()
+
         let selector = colorSelectors[0]
-        ctx.beginPath()
-        ctx.strokeStyle = selector.color
-        ctx.lineWidth = lineWidth * 1.5
-        ctx.lineCap = 'round'
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI,
-            Math.PI + 0.001,
-            false
-        )
-        ctx.stroke()
+        RoundedArcBGLeft({
+            ctx: ctx,
+            bgColor: selector.color,
+            x: W / 2,
+            y: H - lineWidth / 0.75,
+            lineWidth: lineWidth * 1.5,
+            radius: radius,
+            startAngle: Math.PI,
+            endAngle: Math.PI + 0.001,
+            capRadiusRatio: 3,
+            capOffset: 0.5 / 3
+        })
 
         // Color maker cap 2
+        // selector = colorSelectors[colorSelectors.length - 1]
+        // ctx.beginPath()
+        // ctx.strokeStyle = selector.color
+        // ctx.lineWidth = lineWidth * 1.5
+        // ctx.lineCap = 'round'
+        // ctx.arc(W / 2, H - lineWidth / 0.75, radius, Math.PI * 2, (Math.PI + 0.001) * 2, false)
+        // ctx.stroke()
+
         selector = colorSelectors[colorSelectors.length - 1]
-        ctx.beginPath()
-        ctx.strokeStyle = selector.color
-        ctx.lineWidth = lineWidth * 1.5
-        ctx.lineCap = 'round'
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI * 2,
-            (Math.PI + 0.001) * 2,
-            false
-        )
-        ctx.stroke()
+        RoundedArcBGRight({
+            ctx: ctx,
+            bgColor: selector.color,
+            x: W / 2,
+            y: H - lineWidth / 0.75,
+            lineWidth: lineWidth * 1.5,
+            radius: radius,
+            startAngle: Math.PI * 2,
+            endAngle: (Math.PI + 0.001) * 2,
+            capRadiusRatio: 3,
+            capOffset: 0.5 / 3
+        })
 
         // Color marker arcs
         for (let i = 0; i < colorSelectors.length; i++) {
@@ -197,31 +214,50 @@ export default function FunGauge(props) {
             ctx.lineCap = 'butt'
             let startAngle = Math.PI + Math.PI * (selector.min / 100)
             let endAngle = Math.PI + Math.PI * (selector.max / 100)
-            ctx.arc(
-                W / 2,
-                H - lineWidth / 0.75,
-                radius,
-                startAngle,
-                endAngle,
-                false
-            )
+            ctx.arc(W / 2, H - lineWidth / 0.75, radius, startAngle, endAngle, false)
             ctx.stroke()
         }
 
         // Background arc
-        ctx.beginPath()
-        ctx.strokeStyle = bgColor
-        ctx.lineWidth = lineWidth * 1.2
-        ctx.lineCap = 'round'
-        ctx.arc(
-            W / 2,
-            H - lineWidth / 0.75,
-            radius,
-            Math.PI,
-            Math.PI * 2,
-            false
-        )
-        ctx.stroke()
+        // ctx.beginPath()
+        // ctx.strokeStyle = bgColor
+        // ctx.lineWidth = lineWidth * 1.2
+        // ctx.lineCap = 'round'
+        // ctx.arc(
+        //     W / 2,
+        //     H - lineWidth / 0.75,
+        //     radius,
+        //     Math.PI,
+        //     Math.PI * 2,
+        //     false
+        // )
+        // ctx.stroke()
+
+        RoundedArcBGLeft({
+            ctx: ctx,
+            bgColor: bgColor,
+            x: W / 2,
+            y: H - lineWidth / 0.75,
+            lineWidth: lineWidth * 1.2,
+            radius: radius,
+            startAngle: Math.PI,
+            endAngle: Math.PI * 1.5,
+            capRadiusRatio: 3,
+            capOffset: 0.075
+        })
+
+        RoundedArcBGRight({
+            ctx: ctx,
+            bgColor: bgColor,
+            x: W / 2,
+            y: H - lineWidth / 0.75,
+            lineWidth: lineWidth * 1.2,
+            radius: radius,
+            startAngle: Math.PI * 1.5,
+            endAngle: Math.PI * 2,
+            capRadiusRatio: 3,
+            capOffset: 0.075
+        })
 
         // Gauge arc
         // ctx.beginPath()
@@ -304,11 +340,7 @@ export default function FunGauge(props) {
         ctx.font = `bold ${Math.round(W * 0.1)}px arial`
         text = title
         textWidth = ctx.measureText(text).width
-        ctx.fillText(
-            text,
-            Math.round(W / 2 - textWidth / 2),
-            Math.round(W * 0.1)
-        )
+        ctx.fillText(text, Math.round(W / 2 - textWidth / 2), Math.round(W * 0.1))
 
         // 0 label
         ctx.fillStyle = '#BDBDBD'
@@ -388,9 +420,7 @@ export default function FunGauge(props) {
         },
 
         forceRender() {
-            renderingLoopID = requestAnimationFrame(() =>
-                render(renderedValue, renderedColor)
-            )
+            renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
         },
         updateProps(newProps) {
             updateProps(newProps)

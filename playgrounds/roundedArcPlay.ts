@@ -1,4 +1,4 @@
-import { RoundedArcBoth, RoundedArcRight, RoundedArcLeft } from '../src/roundedArc'
+import { RoundedArcBoth, RoundedArcBGRight, RoundedArcBGLeft } from '../src/roundedArc'
 
 let canvas = document.getElementById('g1') as HTMLCanvasElement
 let ctx = canvas?.getContext('2d')
@@ -34,7 +34,7 @@ if (canvas && ctx) {
     ctx.stroke()
     ctx.closePath()
 
-    RoundedArcLeft({
+    RoundedArcBGLeft({
         ctx: ctx,
         bgColor: '#fff',
         x: 310,
@@ -42,10 +42,11 @@ if (canvas && ctx) {
         lineWidth: 50,
         radius: 250,
         startAngle: Math.PI,
-        endAngle: Math.PI * 1.5
+        endAngle: Math.PI * 1.5,
+        capRadiusRatio: 3
     })
 
-    RoundedArcRight({
+    RoundedArcBGRight({
         ctx: ctx,
         bgColor: '#aaa',
         x: 310,
@@ -53,7 +54,8 @@ if (canvas && ctx) {
         lineWidth: 50,
         radius: 250,
         startAngle: Math.PI * 1.5,
-        endAngle: Math.PI * 2
+        endAngle: Math.PI * 2,
+        capRadiusRatio: 3
     })
 
     // RoundedArcBoth({
@@ -64,7 +66,8 @@ if (canvas && ctx) {
     //     lineWidth: 50,
     //     radius: 250,
     //     startAngle: Math.PI,
-    //     endAngle: Math.PI * 2
+    //     endAngle: Math.PI * 2,
+    //     capRadiusRatio: 3
     // })
 
     RoundedArcBoth({
@@ -75,7 +78,8 @@ if (canvas && ctx) {
         lineWidth: 40,
         radius: 250,
         startAngle: Math.PI,
-        endAngle: Math.PI * 1.5
+        endAngle: Math.PI * 1.5,
+        capRadiusRatio: 3
     })
 
     // ctx.beginPath()

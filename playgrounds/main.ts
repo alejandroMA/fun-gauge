@@ -15,9 +15,9 @@ let dg2 = Gauge({
     animation: {
         duration: 500,
         animateText: false,
-        easeFunc: function(t) {
-            return t * t
-        }
+        // easeFunc: function(t) {
+        //     return t * t
+        // }
     },
     colorSelectors: [{ color: '#607D8B', min: 0, max: 100 }],
     lineWidth: 0.08,
@@ -71,6 +71,10 @@ let gauge3 = Gauge({
     // { color: "#F44336", min: 73, max: 90 },
     { color: "#6e40aa", min: 73, max: 100 },
   ],
+  // colorSelectors: [
+  //   { color: "#F44336", min: 0, max: 50 },
+  //   { color: "#6e40aa", min: 50, max: 100 },
+  // ],
   // colorSelectors: [
   //   { color: "#6e40aa", min: 0, max: 20 },
   //   { color: "#ff5e63", min: 20, max: 40 },
