@@ -1,4 +1,4 @@
-import RoundedArc, { RoundedCap } from '../src/roundedArc'
+import { RoundedArcBoth, RoundedArcRight, RoundedArcLeft } from '../src/roundedArc'
 
 let canvas = document.getElementById('g1') as HTMLCanvasElement
 let ctx = canvas?.getContext('2d')
@@ -18,7 +18,7 @@ if (canvas && ctx) {
     // Normalize coordinate system to use CSS pixels.
     ctx.scale(scale, scale)
 
-    RoundedArc({
+    RoundedArcBoth({
         ctx: ctx,
         bgColor: '#fff',
         x: 310,
@@ -29,7 +29,7 @@ if (canvas && ctx) {
         endAngle: Math.PI * 2
     })
 
-    RoundedArc({
+    RoundedArcBoth({
         ctx: ctx,
         bgColor: '#f0f',
         x: 310,
@@ -37,7 +37,6 @@ if (canvas && ctx) {
         lineWidth: 40,
         radius: 250,
         startAngle: Math.PI,
-        endAngle: Math.PI * 1.02
+        endAngle: Math.PI * 1.8
     })
-
 }
