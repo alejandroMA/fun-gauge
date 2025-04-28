@@ -280,8 +280,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         // Gauge arc
         let capRadiusRatio = 3
-        if (value < 6) {
-            capRadiusRatio = 3 * (7 - value)
+        if (valueToRender < 6) {
+            capRadiusRatio = 3 * (7 - valueToRender)
         }
 
         RoundedArcBoth({

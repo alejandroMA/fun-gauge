@@ -153,7 +153,7 @@ export function RoundedArcBGLeft(props: RoundedArcProps) {
         rotation: rotation,
         triangleSide: 'l',
         triangleHeight: 3,
-        xCorrection: 0
+        xCorrection: -0.5
     })
 }
 
