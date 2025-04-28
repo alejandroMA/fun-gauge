@@ -7,24 +7,18 @@
   "browser": "dist/funGauge.umd.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "biome lint",
     "build": "rollup -c",
-    "build2": "microbundle --name funGauge",
     "dev": "vite playgrounds",
-    "dev-build": "webpack --progress",
-    "server": "serve .",
-    "dev-watch": "webpack --progress --watch -d"
+    "server": "serve ."
   },
   "author": "Alejandro Madariaga Angeles",
   "private": true,
   "license": "UNLICENSED",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/d3-color": "^3.1.3",
     "@types/hammerjs": "^2.0.46",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "^7.9.1",
     "hammerjs": "^2.0.8",
     "npm-run-all": "^4.0.1",
     "prettier": "^1.15.3",

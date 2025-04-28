@@ -1,4 +1,4 @@
-# Double Gauge
+# Fun Gauge
 
 ## Basic usage
 

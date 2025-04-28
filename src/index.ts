@@ -1,4 +1,3 @@
-// import mergeOptions from 'merge-options'
 import { merge } from 'ts-deepmerge'
 import hclInterpolator from './hclInterpolator'
 import { RoundedArcBoth, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
@@ -91,8 +90,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         canvas.width = W * ratio
         canvas.height = H * ratio
-        canvas.style.width = W + 'px'
-        canvas.style.height = H + 'px'
+        canvas.style.width = `${W}px`
+        canvas.style.height = `${H}px`
         if (ctx) {
             ctx.scale(ratio, ratio)
         }
@@ -132,10 +131,10 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         title = props.title!
         colorSelectors = props.colorSelectors!
         bgColor = props.bgColor!
-        animationDuration = props.animation!.duration!
-        textRender = props.animation!.textRender!
-        animateText = props.animation!.animateText!
-        easeFunc = props.animation!.easeFunc!
+        animationDuration = props.animation?.duration!
+        textRender = props.animation?.textRender!
+        animateText = props.animation?.animateText!
+        easeFunc = props.animation?.easeFunc!
         // todo: fix lineWidth bug
         // lineWidth = props.lineWidth;
         // lineWidth = Math.round(W * props.lineWidth);
@@ -304,7 +303,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         let textValue = animateText ? renderedValue : value
         text = textRender(textValue, oldValue, value)
         ctx.fillStyle = '#fff'
-        ctx.font = 'bold ' + Math.round(W * 0.25) + 'px arial'
+        ctx.font = `bold ${Math.round(W * 0.25)}px arial`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth / 0.9)
 
@@ -317,14 +316,14 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         // 0 label
         ctx.fillStyle = '#BDBDBD'
-        ctx.font = Math.round(lineWidth / 2) + 'px arial'
+        ctx.font = `${Math.round(lineWidth / 2)}px arial`
         text = '0'
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(lineWidth / 2 - textWidth / 2), H)
 
         // 100 label
         ctx.fillStyle = '#BDBDBD'
-        ctx.font = Math.round(lineWidth / 2) + 'px arial'
+        ctx.font = `${Math.round(lineWidth / 2)}px arial`
         text = '100'
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(W - lineWidth / 2 - textWidth / 2), H)
@@ -332,9 +331,9 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // ctx.restore();
     }
 
-    function getColor(value: number, selectors: ColorSelector[] = colorSelectors): string {
-        value = Math.round(value)
-        let color: string = ''
+    function getColor(valueParam: number, selectors: ColorSelector[] = colorSelectors): string {
+        let value = Math.round(valueParam)
+        let color = ''
 
         for (let i = 0; i < selectors.length; i++) {
             let selector = selectors[i]
@@ -372,7 +371,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         getCanvasElement(): HTMLCanvasElement {
             return canvas
         },
-        animateTo: function(newValue: number): void {
+        animateTo(newValue: number): void {
             if (newValue === value) return
 
             value = newValue
@@ -405,6 +404,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
 export function backOut(t: number): number {
     const s = 1
+    // biome-ignore lint/style/noParameterAssign: just
     return --t * t * ((s + 1) * t + s) + 1
 }
 

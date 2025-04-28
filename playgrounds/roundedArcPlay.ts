@@ -1,7 +1,7 @@
 import { RoundedArcBoth, RoundedArcBGRight, RoundedArcBGLeft } from '../src/roundedArc'
 
-let canvas = document.getElementById('g1') as HTMLCanvasElement
-let ctx = canvas?.getContext('2d')
+const canvas = document.getElementById('g1') as HTMLCanvasElement
+const ctx = canvas?.getContext('2d')
 
 if (canvas && ctx) {
     console.log('roundedCap')

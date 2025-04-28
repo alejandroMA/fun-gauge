@@ -80,28 +80,27 @@ let gauge3 = Gauge({
 
 let slider = document.querySelector('#rangeSlider') as HTMLInputElement
 slider.value = gauge3Value.toString()
-let sliderRect = slider.getBoundingClientRect()
 slider?.addEventListener(
     'input',
-    throttle(function() {
-        gauge3Value = Math.round(parseFloat(slider?.value) * 100) / 100
+    throttle(() => {
+        gauge3Value = Math.round(Number.parseFloat(slider?.value) * 100) / 100
         gauge3.animateTo(gauge3Value)
     }, 82)
 )
 
-var hammerSlider = new Hammer(slider)
-hammerSlider.on('panstart', function() {
+let hammerSlider = new Hammer(slider)
+hammerSlider.on('panstart', () => {
     gauge3.updateProps({ animation: { duration: 300 } })
     console.log('panstart')
 })
-hammerSlider.on('panend', function() {
+hammerSlider.on('panend', () => {
     gauge3.updateProps({ animation: { duration: 750 } })
     console.log('panend')
 })
 
 let gauge3DomRect = gauge3.getCanvasElement().getBoundingClientRect()
 
-let throttleHandlePan = throttle(function(event: HammerInput) {
+let throttleHandlePan = throttle((event: HammerInput) => {
     let mouseX = event.center.x
 
     let canvasStartX = gauge3DomRect.x
@@ -126,23 +125,23 @@ let throttleHandlePan = throttle(function(event: HammerInput) {
     // 4 frames behind
 }, 76)
 
-var hammerGauge = new Hammer(gauge3.getCanvasElement())
-hammerGauge.on('panstart', function() {
+let hammerGauge = new Hammer(gauge3.getCanvasElement())
+hammerGauge.on('panstart', () => {
     gauge3DomRect = gauge3.getCanvasElement().getBoundingClientRect()
     gauge3.updateProps({ animation: { duration: 300 } })
     console.log('panstart')
 })
-hammerGauge.on('pan', function(event) {
+hammerGauge.on('pan', (event) => {
     throttleHandlePan(event)
 })
 hammerGauge.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL })
-hammerGauge.on('panend', function() {
+hammerGauge.on('panend', () => {
     gauge3.updateProps({ animation: { duration: 750 } })
     console.log('panend')
     slider.value = gauge3Value.toString()
 })
 
-hammerGauge.on('tap', function(event) {
+hammerGauge.on('tap', (event) => {
     throttleHandlePan(event)
 })
 
@@ -162,9 +161,3 @@ hammerGauge.on('tap', function(event) {
 //   domNode: document.querySelector("#gauge3"),
 //   value: 70,
 // });
-
-setInterval(function() {
-    // random value
-    // gaugue2.animateTo(Math.round(Math.random() * 100));
-    // gaugue3.animateTo(Math.round(Math.random() * 100));
-}, 5000)
