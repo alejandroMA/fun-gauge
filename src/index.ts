@@ -9,13 +9,13 @@ import { RoundedArcBoth, RoundedArcBGLeft, RoundedArcBGRight } from './roundedAr
  * @property min
  * @property max inclusive
  */
-type ColorSelector = {
+export type ColorSelector = {
     color: string // hexcolor
     min: number
     max: number
 }
 
-type FunGaugeProps = {
+export type FunGaugeProps = {
     canvasElement?: HTMLCanvasElement
     width?: number // pixels
     title?: string
