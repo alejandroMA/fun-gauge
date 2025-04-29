@@ -18,7 +18,6 @@ export type ColorSelector = {
 export type FunGaugeProps = {
     canvasElement?: HTMLCanvasElement
     width?: number // pixels
-    title?: string
     value?: number
     colorSelectors?: ColorSelector[]
     animation?: {
@@ -58,8 +57,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
     let textRender = textRenderFunc
     let animateText = true
 
-    let title = ''
-
     let value = 0
     let renderedValue = 0
     let oldValue = 0
@@ -85,7 +82,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         } else {
             W = canvas.getBoundingClientRect().width
         }
-        H = W / 2 + Math.round(W * 0.25)
+        H = W / 2 + Math.round(W * 0.15)
         lineWidth = Math.round(W * (props.lineWidth || lineWidth))
 
         canvas.width = W * ratio
@@ -113,7 +110,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         let oldProps = {
             canvasElement: canvas,
             width: W,
-            title: title,
             value: value,
             colorSelectors: colorSelectors,
             animation: {
@@ -128,7 +124,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         }
         props = merge.withOptions({ mergeArrays: false }, oldProps, newProps)
 
-        title = props.title!
         colorSelectors = props.colorSelectors!
         bgColor = props.bgColor!
         animationDuration = props.animation?.duration!
@@ -306,13 +301,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         ctx.font = `bold ${Math.round(W * 0.25)}px arial`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth / 0.9)
-
-        // Title
-        ctx.fillStyle = '#9E9E9E'
-        ctx.font = `bold ${Math.round(W * 0.1)}px arial`
-        text = title
-        textWidth = ctx.measureText(text).width
-        ctx.fillText(text, Math.round(W / 2 - textWidth / 2), Math.round(W * 0.1))
 
         // 0 label
         ctx.fillStyle = '#BDBDBD'

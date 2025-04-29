@@ -4,13 +4,11 @@ import Hammer from 'hammerjs'
 
 let dg1 = Gauge({
     canvasElement: document.querySelector('#g1') as HTMLCanvasElement,
-    title: 'Title',
     value: 40
 })
 
 let dg2 = Gauge({
     canvasElement: document.querySelector('#g2') as HTMLCanvasElement,
-    title: 'Title2',
     value: 80,
     animation: {
         duration: 500,
@@ -29,11 +27,6 @@ setInterval(() => {
     dg1.animateTo(rand())
     dg2.animateTo(rand())
 }, 4000)
-
-setTimeout(() => {
-    dg2.updateProps({ title: 'wop' })
-    // dg2.update()
-}, 5100)
 
 function rand() {
     return Math.round(Math.random() * 100)
@@ -56,7 +49,6 @@ let gauge3Value = 65
 let gauge3 = Gauge({
     canvasElement: document.querySelector('#gauge3') as HTMLCanvasElement,
     value: gauge3Value,
-    title: 'slider',
     colorSelectors: [
         { color: '#F44336', min: 0, max: 26 },
         { color: '#FFC107', min: 26, max: 33 },

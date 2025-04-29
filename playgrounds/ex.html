@@ -23,13 +23,11 @@
         <script>
             let dg1 = DGauge({
                 domNode: document.querySelector('#g1'),
-                title: 'Title',
                 value: 40
             })
 
             let dg2 = DGauge({
                 domNode: document.querySelector('#g2'),
-                title: 'Title2',
                 value: 80,
                 animation: {
                     duration: 500,
@@ -49,10 +47,6 @@
                 dg2.setValue(rand())
             }, 4000)
 
-            setTimeout(() => {
-                dg2.changeConfig({ title: 'wop' })
-                dg2.update()
-            }, 5100)
 
             function rand() {
                 return Math.round(Math.random() * 100)
