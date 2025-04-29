@@ -331,8 +331,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // ctx.restore();
     }
 
-    function getColor(valueParam: number, selectors: ColorSelector[] = colorSelectors): string {
-        let value = Math.round(valueParam)
+    function getColor(value: number, selectors: ColorSelector[] = colorSelectors): string {
         let color = ''
 
         for (let i = 0; i < selectors.length; i++) {
