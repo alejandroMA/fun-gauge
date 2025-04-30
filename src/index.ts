@@ -51,7 +51,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
     let colorSelectors: ColorSelector[] = [
         { color: '#F44336', min: 0, max: 33 },
-        { color: '#FFEB3B', min: 33, max: 66 },
+        { color: '#FFC107', min: 33, max: 66 },
         { color: '#4CAF50', min: 66, max: 100 }
     ]
     let textRender = textRenderFunc
@@ -274,11 +274,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         })
 
         // Gauge arc
-        let capRadiusRatio = 3
-        if (valueToRender < 6) {
-            capRadiusRatio = 3 * (7 - valueToRender)
-        }
-
         RoundedArcBoth({
             ctx: ctx,
             bgColor: renderedColor,
@@ -288,7 +283,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: Math.PI,
             endAngle: valueRadians,
-            capRadiusRatio: capRadiusRatio
+            capRadiusRatio: 3
         })
 
         let textWidth = 0

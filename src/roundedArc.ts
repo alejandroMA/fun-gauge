@@ -16,25 +16,30 @@ export function RoundedArcBoth(props: RoundedArcProps) {
     let capRadius = props.capRadiusRatio || 3
 
     // todo: calc offset not 0
+    // todo: use props.capOffset
     // todo: 1.09?
-    let startAngleArc = props.startAngle + (Math.asin((props.lineWidth * 1.09) / capRadius / props.radius) + 0)
-    // let startAngleArc = props.startAngle
-    startAngleArc = Math.min(startAngleArc, props.endAngle)
+    let angleOffset = Math.asin((props.lineWidth * 1.09) / capRadius / props.radius) + 0
 
-    // todo: calc offset not 0
-    // todo: 1.09?
-    let endAngleArc = props.endAngle - (Math.asin((props.lineWidth * 1.09) / capRadius / props.radius) + 0)
+    let startAngleArc = props.startAngle + angleOffset
+    // let startAngleArc = props.startAngle
+    let endAngleArc = props.endAngle - angleOffset
     // let endAngleArc = props.endAngle
-    endAngleArc = Math.max(endAngleArc, startAngleArc)
 
     // Gauge arc
     ctx.beginPath()
     ctx.strokeStyle = props.bgColor
     ctx.lineWidth = props.lineWidth
     ctx.lineCap = 'butt'
-    ctx.arc(props.x, props.y, props.radius, startAngleArc, endAngleArc, false)
+    ctx.arc(props.x, props.y, props.radius, startAngleArc, Math.max(endAngleArc, startAngleArc), false)
     ctx.stroke()
     ctx.closePath()
+
+    let capWidth = props.lineWidth
+    if (startAngleArc > endAngleArc) {
+        let shrinkFactor = 1 - (startAngleArc - endAngleArc) / angleOffset / 2
+        shrinkFactor = Math.max(shrinkFactor, 0.001)
+        capWidth = props.lineWidth * shrinkFactor
+    }
 
     // Cap left
     let XLeft = props.x - props.radius * Math.cos(props.startAngle - Math.PI)
@@ -47,9 +52,9 @@ export function RoundedArcBoth(props: RoundedArcProps) {
         // bgColor: '#f00',
         x: XLeft,
         y: YLeft,
-        width: props.lineWidth,
+        width: capWidth,
         parentRadius: props.radius,
-        radius: props.lineWidth / capRadius,
+        radius: capWidth / capRadius,
         rotation: rotationLeft,
         triangleSide: 'l'
     })
@@ -65,9 +70,9 @@ export function RoundedArcBoth(props: RoundedArcProps) {
         // bgColor: '#f00',
         x: XRight,
         y: YRight,
-        width: props.lineWidth,
+        width: capWidth,
         parentRadius: props.radius,
-        radius: props.lineWidth / capRadius,
+        radius: capWidth / capRadius,
         rotation: rotation,
         triangleSide: 'r'
     })
@@ -79,6 +84,7 @@ export function RoundedArcBGRight(props: RoundedArcProps) {
 
     // todo: calc offset not 0
     // todo: use props.capOffset
+    // todo: 1.12?
     let endAngleArc = props.endAngle - (Math.asin((props.lineWidth * 1.12) / capRadius / props.radius / 2) + 0)
     endAngleArc = Math.max(endAngleArc, props.startAngle)
     // endAngleArc = props.endAngle
@@ -120,6 +126,7 @@ export function RoundedArcBGLeft(props: RoundedArcProps) {
 
     // todo: calc offset not 0
     // todo: use props.capOffset
+    // todo: 1.12?
     let startAngleArc = props.startAngle + (Math.asin((props.lineWidth * 1.12) / capRadius / props.radius / 2) + 0)
     startAngleArc = Math.min(startAngleArc, props.endAngle)
     // startAngleArc = props.startAngle
