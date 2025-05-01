@@ -4,32 +4,32 @@ import Hammer from 'hammerjs'
 
 let dg1 = Gauge({
     canvasElement: document.querySelector('#g1') as HTMLCanvasElement,
-    value: 40
+    value: 40,
+    lineWidth: 0.12
 })
 
 let dg2 = Gauge({
     canvasElement: document.querySelector('#g2') as HTMLCanvasElement,
-    value: 80,
+    value: 800,
     animation: {
         duration: 500,
-        animateText: false
-        // easeFunc: function(t) {
-        //     return t * t
-        // }
+        animateText: false,
+        textRenderFunc: (val: number): string => `${Math.round(val)}`,
+        easeFunc: (t: number) => t * t
     },
-    colorSelectors: [{ color: '#607D8B', min: 0, max: 100 }],
-    lineWidth: 0.08
+    colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
+    lineWidth: 0.05
     // bgcolor: '#CFD8DC'
 })
 
 setInterval(() => {
     // random value
-    dg1.animateTo(rand())
-    dg2.animateTo(rand())
+    dg1.animateTo(rand(0, 100))
+    dg2.animateTo(rand(200, 1000))
 }, 4000)
 
-function rand() {
-    return Math.round(Math.random() * 100)
+function rand(min: number, max: number): number {
+    return Math.round(min + Math.random() * (max - min))
 }
 
 /* setTimeout(() => {

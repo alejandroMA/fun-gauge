@@ -43,7 +43,7 @@ if (canvas && ctx) {
         radius: 250,
         startAngle: Math.PI,
         endAngle: Math.PI * 1.5,
-        capRadiusRatio: 3
+        capRadiusRatio: 4
     })
 
     RoundedArcBGRight({
@@ -55,7 +55,7 @@ if (canvas && ctx) {
         radius: 250,
         startAngle: Math.PI * 1.5,
         endAngle: Math.PI * 2,
-        capRadiusRatio: 3
+        capRadiusRatio: 4
     })
 
     // RoundedArcBoth({
@@ -67,7 +67,7 @@ if (canvas && ctx) {
     //     radius: 250,
     //     startAngle: Math.PI,
     //     endAngle: Math.PI * 2,
-    //     capRadiusRatio: 3
+    //     capRadiusRatio: 4
     // })
 
     RoundedArcBoth({
@@ -79,42 +79,42 @@ if (canvas && ctx) {
         radius: 250,
         startAngle: Math.PI,
         endAngle: Math.PI * 1.5,
-        capRadiusRatio: 3
+        capRadiusRatio: 4
     })
 
-    // ctx.beginPath()
-    // ctx.strokeStyle = '#fff'
-    // ctx.lineWidth = 2
-    // ctx.lineCap = 'square'
-    // ctx.moveTo(310, 0)
-    // ctx.lineTo(310, 310)
-    // ctx.stroke()
-    // ctx.closePath()
+    ctx.beginPath()
+    ctx.strokeStyle = '#fff'
+    ctx.lineWidth = 2
+    ctx.lineCap = 'square'
+    ctx.moveTo(310, 0)
+    ctx.lineTo(310, 310)
+    ctx.stroke()
+    ctx.closePath()
 
-    // ctx.beginPath()
-    // ctx.strokeStyle = '#fff'
-    // ctx.lineWidth = 2
-    // ctx.lineCap = 'square'
-    // ctx.moveTo(0, 310)
-    // ctx.lineTo(310 * 2, 310)
-    // ctx.stroke()
-    // ctx.closePath()
+    ctx.beginPath()
+    ctx.strokeStyle = '#fff'
+    ctx.lineWidth = 2
+    ctx.lineCap = 'square'
+    ctx.moveTo(0, 310)
+    ctx.lineTo(310 * 2, 310)
+    ctx.stroke()
+    ctx.closePath()
 
-    // ctx.beginPath()
-    // ctx.strokeStyle = '#f00'
-    // ctx.lineWidth = 2
-    // ctx.lineCap = 'square'
-    // ctx.moveTo(310, 310)
-    // ctx.lineTo(310, 310 + 40)
-    // ctx.stroke()
-    // ctx.closePath()
+    ctx.beginPath()
+    ctx.strokeStyle = '#f00'
+    ctx.lineWidth = 2
+    ctx.lineCap = 'square'
+    ctx.moveTo(310, 310)
+    ctx.lineTo(310, 310 + 40)
+    ctx.stroke()
+    ctx.closePath()
 
-    // ctx.beginPath()
-    // ctx.strokeStyle = '#f00'
-    // ctx.lineWidth = 2
-    // ctx.lineCap = 'square'
-    // ctx.moveTo(0, 310 + 20)
-    // ctx.lineTo(310 * 2, 310 + 20)
-    // ctx.stroke()
-    // ctx.closePath()
+    ctx.beginPath()
+    ctx.strokeStyle = '#f00'
+    ctx.lineWidth = 2
+    ctx.lineCap = 'square'
+    ctx.moveTo(0, 310 + 20)
+    ctx.lineTo(310 * 2, 310 + 20)
+    ctx.stroke()
+    ctx.closePath()
 }

@@ -15,6 +15,9 @@ export type ColorSelector = {
     max: number
 }
 
+/**
+ * FunGaugeProps
+ */
 export type FunGaugeProps = {
     canvasElement?: HTMLCanvasElement
     width?: number // pixels
@@ -22,7 +25,7 @@ export type FunGaugeProps = {
     colorSelectors?: ColorSelector[]
     animation?: {
         duration?: number // ms
-        textRender?: (currentValue: number, oldValue: number, newValue: number) => string
+        textRenderFunc?: (currentValue: number) => string
         animateText?: boolean
         easeFunc?: (t: number) => number
     }
@@ -39,6 +42,12 @@ type FunGauge = {
     updateProps: (newProps: FunGaugeProps) => void
 }
 
+/**
+ * FunGauge
+ *
+ * @param props configuration options
+ * @returns {FunGauge}
+ */
 export default function FunGauge(props: FunGaugeProps): FunGauge {
     let canvas = document.createElement('canvas')
     let ctx: CanvasRenderingContext2D | null
@@ -47,14 +56,14 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
     let lineWidth = 0.095
     let bgColor = '#ECECEC'
     let animationDuration = 750
-    let easeFunc = backOut
+    let easeFunc = backOutEase
 
     let colorSelectors: ColorSelector[] = [
         { color: '#F44336', min: 0, max: 33 },
         { color: '#FFC107', min: 33, max: 66 },
         { color: '#4CAF50', min: 66, max: 100 }
     ]
-    let textRender = textRenderFunc
+    let textRenderFunc = (val: number): string => `${Math.round(val)}%`
     let animateText = true
 
     let value = 0
@@ -114,20 +123,20 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             colorSelectors: colorSelectors,
             animation: {
                 duration: animationDuration,
-                textRender: textRender,
+                textRenderFunc: textRenderFunc,
                 animateText: animateText,
                 easeFunc: easeFunc
             },
             bgColor: bgColor,
             lineWidth: lineWidth,
             firstRenderDelay: props.firstRenderDelay
-        }
+        } as FunGaugeProps
         props = merge.withOptions({ mergeArrays: false }, oldProps, newProps)
 
         colorSelectors = props.colorSelectors!
         bgColor = props.bgColor!
         animationDuration = props.animation?.duration!
-        textRender = props.animation?.textRender!
+        textRenderFunc = props.animation?.textRenderFunc!
         animateText = props.animation?.animateText!
         easeFunc = props.animation?.easeFunc!
         // todo: fix lineWidth bug
@@ -141,7 +150,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         oldValue = renderedValue
         let difference = value - oldValue
 
-        color = getColor(value)
+        color = getColor(value, colorSelectors)
         let colorInterpolator = hclInterpolator(renderedColor, color)
         let startTime: DOMHighResTimeStamp | null = null
 
@@ -155,7 +164,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
             if (animationProgress >= 1) {
                 renderedValue = value
-                renderedColor = getColor(value)
+                renderedColor = getColor(value, colorSelectors)
 
                 render(renderedValue, renderedColor)
                 cancelAnimationFrame(renderingLoopID)
@@ -176,22 +185,20 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         if (!ctx) {
             return
         }
-
-        let radius = W / 2 - (lineWidth * 1.5) / 2
-        // todo: get min and max from colorSelectors
-        // rescale value to 0 to 1
-        let valueToRender = Math.max(renderedValue, 0.1)
-        // valueToRender = Math.min(valueToRender, 100.1);
-        let valueRadians = (1 + valueToRender / 100) * Math.PI
-
         // Clear the canvas every time a chart is drawn
         ctx.clearRect(0, 0, W, H)
-        // ctx.save();
+
+        let radius = W / 2 - (lineWidth * 1.5) / 2
+
+        // rescale value to 0 to 1
+        let { min, max } = getMinMax(colorSelectors)
+        let valueToRender = Math.max(renderedValue, min)
+        let valueRadians = (1 + (valueToRender - min) / (max - min)) * Math.PI
 
         // first color marker
         let selector = colorSelectors[0]
-        let startAngle = Math.PI + Math.PI * (selector.min / 100) // todo: not 100
-        let endAngle = Math.PI + Math.PI * (selector.max / 100) // todo: not 100
+        let startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
+        let endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
         // only one color selector
         if (colorSelectors.length === 1) {
             startAngle = Math.PI
@@ -212,8 +219,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         // last color marker
         selector = colorSelectors[colorSelectors.length - 1]
-        startAngle = Math.PI + Math.PI * (selector.min / 100) // todo: not 100
-        endAngle = Math.PI + Math.PI * (selector.max / 100) // todo: not 100
+        startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
+        endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
         // only one color selector
         if (colorSelectors.length === 1) {
             startAngle = Math.PI * 1.5
@@ -235,8 +242,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // color markers
         for (let i = 1; i < colorSelectors.length - 1; i++) {
             let selector = colorSelectors[i]
-            let startAngle = Math.PI + Math.PI * (selector.min / 100) // todo: not 100
-            let endAngle = Math.PI + Math.PI * (selector.max / 100) // todo: not 100
+            let startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
+            let endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
 
             ctx.beginPath()
             ctx.strokeStyle = selector.color
@@ -291,7 +298,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         // Counter
         let textValue = animateText ? renderedValue : value
-        text = textRender(textValue, oldValue, value)
+        textValue = clampCounterValue(textValue, oldValue, value)
+        text = textRenderFunc(textValue)
         ctx.fillStyle = '#fff'
         ctx.font = `bold ${Math.round(W * 0.25)}px arial`
         textWidth = ctx.measureText(text).width
@@ -300,21 +308,21 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // 0 label
         ctx.fillStyle = '#BDBDBD'
         ctx.font = `${Math.round(lineWidth / 2)}px arial`
-        text = '0'
+        text = `${min}`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(lineWidth / 2 - textWidth / 2), H)
 
         // 100 label
         ctx.fillStyle = '#BDBDBD'
         ctx.font = `${Math.round(lineWidth / 2)}px arial`
-        text = '100'
+        text = `${max}`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(W - lineWidth / 2 - textWidth / 2), H)
 
         // ctx.restore();
     }
 
-    function getColor(value: number, selectors: ColorSelector[] = colorSelectors): string {
+    function getColor(value: number, selectors: ColorSelector[]): string {
         let color = ''
 
         for (let i = 0; i < selectors.length; i++) {
@@ -337,6 +345,25 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         }
 
         return color
+    }
+
+    function getMinMax(selectors: ColorSelector[]): { min: number; max: number } {
+        // first color marker
+        let min = selectors[0].min
+        let max = selectors[selectors.length - 1].max
+
+        return { min, max }
+    }
+
+    function clampCounterValue(currentValue: number, oldValue: number, newValue: number): number {
+        if (oldValue <= newValue) {
+            return clamp(currentValue, oldValue, newValue)
+        }
+        return clamp(currentValue, newValue, oldValue)
+    }
+
+    function clamp(num: number, min: number, max: number): number {
+        return Math.min(Math.max(num, min), max)
     }
 
     // function startRenderingLoop() {
@@ -365,7 +392,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             oldValue = renderedValue
             renderedValue = newValue
 
-            color = getColor(value)
+            color = getColor(value, colorSelectors)
             renderedColor = color
 
             renderingLoopID = requestAnimationFrame(() => {
@@ -381,33 +408,27 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
             // lineWidth = Math.round(W * props.lineWidth);
         }
-    }
+    } as FunGauge
 }
 
-export function backOut(t: number): number {
+/**
+ *
+ * @param t time animation progress from 0 to 1
+ * @returns eased t
+ */
+export function backOutEase(t: number): number {
     const s = 1
     // biome-ignore lint/style/noParameterAssign: just
     return --t * t * ((s + 1) * t + s) + 1
 }
 
-function textRenderFunc(currentValue: number, oldValue: number, newValue: number): string {
-    let min = 0
-    let max = 100
-
-    if (oldValue <= newValue) {
-        min = oldValue
-        max = newValue
-    } else {
-        min = newValue
-        max = oldValue
-    }
-
-    let clampedValue = Math.round(clamp(currentValue, min, max))
-    return `${clampedValue}%`
-}
-
-function clamp(num: number, min: number, max: number): number {
-    return Math.min(Math.max(num, min), max)
+/**
+ *
+ * @param t time animation progress from 0 to 1
+ * @returns t
+ */
+export function linearEase(t: number): number {
+    return t
 }
 
 // let easeFunc = (t) => t;
