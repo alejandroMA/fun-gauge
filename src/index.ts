@@ -2,6 +2,9 @@ import { merge } from 'ts-deepmerge'
 import hclInterpolator from './hclInterpolator'
 import { RoundedArcBoth, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
 
+const MARKERS_WIDTH_MULT = 1.5
+const BACKGROUND_WIDTH_MULT = 1.2
+
 /**
  * ColorSelector
  * @typedef ColorSelector
@@ -188,7 +191,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // Clear the canvas every time a chart is drawn
         ctx.clearRect(0, 0, W, H)
 
-        let radius = W / 2 - (lineWidth * 1.5) / 2
+        let radius = W / 2 - (lineWidth * MARKERS_WIDTH_MULT) / 2
 
         // rescale value to 0 to 1
         let { min, max } = getMinMax(colorSelectors)
@@ -202,14 +205,14 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // only one color selector
         if (colorSelectors.length === 1) {
             startAngle = Math.PI
-            endAngle = Math.PI * 1.5
+            endAngle = Math.PI * MARKERS_WIDTH_MULT
         }
         RoundedArcBGLeft({
             ctx: ctx,
             bgColor: selector.color,
             x: W / 2,
-            y: H - lineWidth / 0.75,
-            lineWidth: lineWidth * 1.5,
+            y: H - lineWidth,
+            lineWidth: lineWidth * MARKERS_WIDTH_MULT,
             radius: radius,
             startAngle: startAngle,
             endAngle: endAngle,
@@ -230,8 +233,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             ctx: ctx,
             bgColor: selector.color,
             x: W / 2,
-            y: H - lineWidth / 0.75,
-            lineWidth: lineWidth * 1.5,
+            y: H - lineWidth,
+            lineWidth: lineWidth * MARKERS_WIDTH_MULT,
             radius: radius,
             startAngle: startAngle,
             endAngle: endAngle,
@@ -247,9 +250,9 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
             ctx.beginPath()
             ctx.strokeStyle = selector.color
-            ctx.lineWidth = lineWidth * 1.5
+            ctx.lineWidth = lineWidth * MARKERS_WIDTH_MULT
             ctx.lineCap = 'butt'
-            ctx.arc(W / 2, H - lineWidth / 0.75, radius, startAngle, endAngle, false)
+            ctx.arc(W / 2, H - lineWidth, radius, startAngle, endAngle, false)
             ctx.stroke()
         }
 
@@ -258,8 +261,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             ctx: ctx,
             bgColor: bgColor,
             x: W / 2,
-            y: H - lineWidth / 0.75,
-            lineWidth: lineWidth * 1.2,
+            y: H - lineWidth,
+            lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
             radius: radius,
             startAngle: Math.PI,
             endAngle: Math.PI * 1.5,
@@ -271,8 +274,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             ctx: ctx,
             bgColor: bgColor,
             x: W / 2,
-            y: H - lineWidth / 0.75,
-            lineWidth: lineWidth * 1.2,
+            y: H - lineWidth,
+            lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
             radius: radius,
             startAngle: Math.PI * 1.5,
             endAngle: Math.PI * 2,
@@ -285,7 +288,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             ctx: ctx,
             bgColor: renderedColor,
             x: W / 2,
-            y: H - lineWidth / 0.75,
+            y: H - lineWidth,
             lineWidth: lineWidth,
             radius: radius,
             startAngle: Math.PI,
@@ -303,21 +306,21 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         ctx.fillStyle = '#fff'
         ctx.font = `bold ${Math.round(W * 0.25)}px arial`
         textWidth = ctx.measureText(text).width
-        ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth / 0.9)
+        ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth)
 
         // 0 label
         ctx.fillStyle = '#BDBDBD'
         ctx.font = `${Math.round(lineWidth / 2)}px arial`
         text = `${min}`
         textWidth = ctx.measureText(text).width
-        ctx.fillText(text, Math.round(lineWidth / 2 - textWidth / 2), H)
+        ctx.fillText(text, Math.round((lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
         // 100 label
         ctx.fillStyle = '#BDBDBD'
         ctx.font = `${Math.round(lineWidth / 2)}px arial`
         text = `${max}`
         textWidth = ctx.measureText(text).width
-        ctx.fillText(text, Math.round(W - lineWidth / 2 - textWidth / 2), H)
+        ctx.fillText(text, Math.round(W - (lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
         // ctx.restore();
     }
