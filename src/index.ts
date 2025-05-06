@@ -36,7 +36,9 @@ export type FunGaugeProps = {
         easeFunc?: (t: number) => number
     }
     theme?: {
-        bgColor?: string // hex color
+        backgroundArcColor?: string, // hex color
+        counterColor?: string,
+        labelsColor?: string,
         lineWidthFunc?: (width: number) => number
         counterRenderFunc?: (currentValue: number) => string
         counterFontFunc?: (width: number) => string
@@ -75,7 +77,9 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             easeFunc: backOutEase
         },
         theme: {
-            bgColor: '#ECECEC',
+            backgroundArcColor: '#ECECEC',
+            counterColor: '#2A2A2A',
+            labelsColor: '#3A3A3A',
             lineWidthFunc: (width: number) => Math.floor(width * DEFAULT_LINE_WIDTH_MULT),
             counterRenderFunc: (val: number): string => `${Math.round(val)}%`,
             counterFontFunc: (width: number): string =>
@@ -259,7 +263,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         // Background arc
         RoundedArcBGLeft({
             ctx: ctx,
-            bgColor: props.theme?.bgColor!,
+            bgColor: props.theme?.backgroundArcColor!,
             x: W / 2,
             y: H - lineWidth,
             lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
@@ -272,7 +276,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
 
         RoundedArcBGRight({
             ctx: ctx,
-            bgColor: props.theme?.bgColor!,
+            bgColor: props.theme?.backgroundArcColor!,
             x: W / 2,
             y: H - lineWidth,
             lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
@@ -303,20 +307,20 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         let textValue = props.animation?.animateCounter ? renderedValue : value
         textValue = clampCounterValue(textValue, oldValue, value)
         text = props.theme?.counterRenderFunc!(textValue) ?? ''
-        ctx.fillStyle = '#fff'
+        ctx.fillStyle = props.theme?.counterColor!
         ctx.font = props.theme?.counterFontFunc!(W) ?? '10px arial'
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth)
 
         // 0 label
-        ctx.fillStyle = '#BDBDBD'
+        ctx.fillStyle = props.theme?.labelsColor!
         ctx.font = props.theme?.labelsFontFunc!(W) ?? '2px arial'
         text = `${min}`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round((lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
         // 100 label
-        ctx.fillStyle = '#BDBDBD'
+        ctx.fillStyle = props.theme?.labelsColor!
         ctx.font = props.theme?.labelsFontFunc!(W) ?? '2px arial'
         text = `${max}`
         textWidth = ctx.measureText(text).width
