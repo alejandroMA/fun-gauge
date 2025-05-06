@@ -24,7 +24,8 @@
         "rules": {
             "recommended": true,
             "style": {
-                "useConst": "off"
+                "useConst": "off",
+                "noNonNullAssertion": "off"
             }
         }
     },

@@ -5,7 +5,9 @@ import Hammer from 'hammerjs'
 let dg1 = Gauge({
     canvasElement: document.querySelector('#g1') as HTMLCanvasElement,
     value: 40,
-    lineWidth: 0.12
+    theme: {
+        lineWidth: 0.12
+    }
 })
 
 let dg2 = Gauge({
@@ -14,12 +16,14 @@ let dg2 = Gauge({
     animation: {
         duration: 500,
         animateText: false,
-        textRenderFunc: (val: number): string => `${Math.round(val)}`,
-        easeFunc: (t: number) => t * t
+        easeFunc: (t: number) => t * t * t
     },
     colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
-    lineWidth: 0.05
-    // bgcolor: '#CFD8DC'
+    theme: {
+        textRenderFunc: (val: number): string => `${Math.round(val)}`,
+        lineWidth: 0.05,
+        bgColor: '#CFD8DC'
+    }
 })
 
 setInterval(() => {
@@ -49,6 +53,13 @@ let gauge3Value = 65
 let gauge3 = Gauge({
     canvasElement: document.querySelector('#gauge3') as HTMLCanvasElement,
     value: gauge3Value,
+    theme: {
+        bgColor: '#eee'
+    },
+    // animation: {
+    //     animateText: false,
+    //     textRenderFunc: (val: number) => `${Math.round(val)}.${Math.round(val * 10) % 10}`
+    // },
     colorSelectors: [
         { color: '#F44336', min: 0, max: 26 },
         { color: '#FFC107', min: 26, max: 33 },
@@ -57,6 +68,15 @@ let gauge3 = Gauge({
         // { color: "#F44336", min: 73, max: 90 },
         { color: '#6e40aa', min: 73, max: 100 }
     ]
+    // colorSelectors: [
+    //     { min: 0, max: 14.28, color: '#6e40aa' },
+    //     { min: 14.28, max: 28.56, color: '#ee4395' },
+    //     { min: 28.56, max: 42.84, color: '#ff8c38' },
+    //     { min: 42.84, max: 57.12, color: '#aff05b' },
+    //     { min: 57.12, max: 71.4, color: '#28ea8d' },
+    //     { min: 71.4, max: 85.68, color: '#2f96e0' },
+    //     { min: 85.68, max: 100, color: '#6e40aa' }
+    // ]
     // colorSelectors: [
     //   { color: "#F44336", min: 0, max: 50 },
     //   { color: "#6e40aa", min: 50, max: 100 },
@@ -77,7 +97,7 @@ slider?.addEventListener(
     throttle(() => {
         gauge3Value = Math.round(Number.parseFloat(slider?.value) * 100) / 100
         gauge3.animateTo(gauge3Value)
-    }, 82)
+    }, 51)
 )
 
 let hammerSlider = new Hammer(slider)

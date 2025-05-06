@@ -28,16 +28,18 @@ export type FunGaugeProps = {
     colorSelectors?: ColorSelector[]
     animation?: {
         duration?: number // ms
-        textRenderFunc?: (currentValue: number) => string
         animateText?: boolean
         easeFunc?: (t: number) => number
     }
-    bgColor?: string // hex color
-    lineWidth?: number // percentage of width
+    theme?: {
+        bgColor?: string // hex color
+        lineWidth?: number // percentage of width
+        textRenderFunc?: (currentValue: number) => string
+    }
     firstRenderDelay?: number // ms
 }
 
-type FunGauge = {
+export type FunGauge = {
     getCanvasElement: () => HTMLCanvasElement
     animateTo: (newValue: number) => void
     setValue: (newValue: number) => void
@@ -51,41 +53,53 @@ type FunGauge = {
  * @param props configuration options
  * @returns {FunGauge}
  */
-export default function FunGauge(props: FunGaugeProps): FunGauge {
+export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
+    let props: FunGaugeProps = {
+        canvasElement: document.createElement('canvas'),
+        width: 0,
+        value: 0,
+        colorSelectors: [
+            { color: '#F44336', min: 0, max: 33 },
+            { color: '#FFC107', min: 33, max: 66 },
+            { color: '#4CAF50', min: 66, max: 100 }
+        ],
+        animation: {
+            duration: 750,
+            animateText: true,
+            easeFunc: backOutEase
+        },
+        theme: {
+            bgColor: '#ECECEC',
+            lineWidth: 0.095,
+            textRenderFunc: (val: number): string => `${Math.round(val)}%`
+        },
+        firstRenderDelay: 0
+    }
     let canvas = document.createElement('canvas')
     let ctx: CanvasRenderingContext2D | null
     let W = 0
     let H = 0
-    let lineWidth = 0.095
-    let bgColor = '#ECECEC'
-    let animationDuration = 750
-    let easeFunc = backOutEase
-
-    let colorSelectors: ColorSelector[] = [
-        { color: '#F44336', min: 0, max: 33 },
-        { color: '#FFC107', min: 33, max: 66 },
-        { color: '#4CAF50', min: 66, max: 100 }
-    ]
-    let textRenderFunc = (val: number): string => `${Math.round(val)}%`
-    let animateText = true
 
     let value = 0
     let renderedValue = 0
     let oldValue = 0
 
-    let color = colorSelectors[0].color
-    let renderedColor = colorSelectors[0].color
+    let color = props.colorSelectors![0].color
+    let renderedColor = props.colorSelectors![0].color
 
     let renderingLoopID = 0
 
     init()
 
     function init(): void {
-        updateProps(props)
+        updateProps(initialProps)
 
-        canvas = props.canvasElement || canvas
+        canvas = props.canvasElement ?? canvas
         ctx = canvas.getContext('2d')
         value = props.value || 0
+
+        color = props.colorSelectors![0].color
+        renderedColor = props.colorSelectors![0].color
 
         const ratio = window.devicePixelRatio
 
@@ -95,7 +109,6 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
             W = canvas.getBoundingClientRect().width
         }
         H = W / 2 + Math.round(W * 0.15)
-        lineWidth = Math.round(W * (props.lineWidth || lineWidth))
 
         canvas.width = W * ratio
         canvas.height = H * ratio
@@ -106,7 +119,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         }
 
         renderedValue = 0
-        renderedColor = colorSelectors[0].color
+        renderedColor = props.colorSelectors![0].color
 
         renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
         if (!props.firstRenderDelay || props.firstRenderDelay <= 0) {
@@ -119,32 +132,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
     }
 
     function updateProps(newProps: FunGaugeProps): void {
-        let oldProps = {
-            canvasElement: canvas,
-            width: W,
-            value: value,
-            colorSelectors: colorSelectors,
-            animation: {
-                duration: animationDuration,
-                textRenderFunc: textRenderFunc,
-                animateText: animateText,
-                easeFunc: easeFunc
-            },
-            bgColor: bgColor,
-            lineWidth: lineWidth,
-            firstRenderDelay: props.firstRenderDelay
-        } as FunGaugeProps
-        props = merge.withOptions({ mergeArrays: false }, oldProps, newProps)
-
-        colorSelectors = props.colorSelectors!
-        bgColor = props.bgColor!
-        animationDuration = props.animation?.duration!
-        textRenderFunc = props.animation?.textRenderFunc!
-        animateText = props.animation?.animateText!
-        easeFunc = props.animation?.easeFunc!
-        // todo: fix lineWidth bug
-        // lineWidth = props.lineWidth;
-        // lineWidth = Math.round(W * props.lineWidth);
+        props = merge.withOptions({ mergeArrays: false }, props, newProps)
     }
 
     function animateTo(value: number): void {
@@ -153,7 +141,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         oldValue = renderedValue
         let difference = value - oldValue
 
-        color = getColor(value, colorSelectors)
+        color = getColor(value, props.colorSelectors!)
         let colorInterpolator = hclInterpolator(renderedColor, color)
         let startTime: DOMHighResTimeStamp | null = null
 
@@ -162,12 +150,13 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
                 startTime = now
             }
 
-            let animationProgress = (now - startTime) / animationDuration
+            let animationProgress = (now - startTime) / props.animation?.duration!
+            let easeFunc = props.animation?.easeFunc!
             // console.log("animationDuration", animationDuration);
 
             if (animationProgress >= 1) {
                 renderedValue = value
-                renderedColor = getColor(value, colorSelectors)
+                renderedColor = getColor(value, props.colorSelectors!)
 
                 render(renderedValue, renderedColor)
                 cancelAnimationFrame(renderingLoopID)
@@ -188,22 +177,24 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         if (!ctx) {
             return
         }
+        let lineWidth = Math.round(W * props.theme?.lineWidth!)
+
         // Clear the canvas every time a chart is drawn
         ctx.clearRect(0, 0, W, H)
 
         let radius = W / 2 - (lineWidth * MARKERS_WIDTH_MULT) / 2
 
         // rescale value to 0 to 1
-        let { min, max } = getMinMax(colorSelectors)
+        let { min, max } = getMinMax(props.colorSelectors!)
         let valueToRender = Math.max(renderedValue, min)
         let valueRadians = (1 + (valueToRender - min) / (max - min)) * Math.PI
 
         // first color marker
-        let selector = colorSelectors[0]
+        let selector = props.colorSelectors![0]
         let startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
         let endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
         // only one color selector
-        if (colorSelectors.length === 1) {
+        if (props.colorSelectors!.length === 1) {
             startAngle = Math.PI
             endAngle = Math.PI * MARKERS_WIDTH_MULT
         }
@@ -221,11 +212,11 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         })
 
         // last color marker
-        selector = colorSelectors[colorSelectors.length - 1]
+        selector = props.colorSelectors![props.colorSelectors!.length - 1]
         startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
         endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
         // only one color selector
-        if (colorSelectors.length === 1) {
+        if (props.colorSelectors!.length === 1) {
             startAngle = Math.PI * 1.5
             endAngle = Math.PI * 2
         }
@@ -243,8 +234,8 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         })
 
         // color markers
-        for (let i = 1; i < colorSelectors.length - 1; i++) {
-            let selector = colorSelectors[i]
+        for (let i = 1; i < props.colorSelectors!.length - 1; i++) {
+            let selector = props.colorSelectors![i]
             let startAngle = Math.PI + Math.PI * ((selector.min - min) / (max - min))
             let endAngle = Math.PI + Math.PI * ((selector.max - min) / (max - min))
 
@@ -259,7 +250,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         // Background arc
         RoundedArcBGLeft({
             ctx: ctx,
-            bgColor: bgColor,
+            bgColor: props.theme?.bgColor!,
             x: W / 2,
             y: H - lineWidth,
             lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
@@ -272,7 +263,7 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
         RoundedArcBGRight({
             ctx: ctx,
-            bgColor: bgColor,
+            bgColor: props.theme?.bgColor!,
             x: W / 2,
             y: H - lineWidth,
             lineWidth: lineWidth * BACKGROUND_WIDTH_MULT,
@@ -300,11 +291,11 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
         let text = ''
 
         // Counter
-        let textValue = animateText ? renderedValue : value
+        let textValue = props.animation?.animateText ? renderedValue : value
         textValue = clampCounterValue(textValue, oldValue, value)
-        text = textRenderFunc(textValue)
+        text = props.theme?.textRenderFunc!(textValue) ?? ""
         ctx.fillStyle = '#fff'
-        ctx.font = `bold ${Math.round(W * 0.25)}px arial`
+        ctx.font = `bold ${Math.round(W * 0.23)}px arial`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth)
 
@@ -388,14 +379,13 @@ export default function FunGauge(props: FunGaugeProps): FunGauge {
 
             value = newValue
             animateTo(value)
-            // 5 frames behind
         },
         setValue(newValue: number): void {
             value = newValue
             oldValue = renderedValue
             renderedValue = newValue
 
-            color = getColor(value, colorSelectors)
+            color = getColor(value, props.colorSelectors!)
             renderedColor = color
 
             renderingLoopID = requestAnimationFrame(() => {
