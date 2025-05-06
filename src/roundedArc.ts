@@ -11,7 +11,7 @@ export type RoundedArcProps = {
     capOffset?: number // how far out
 }
 
-export function RoundedArcBoth(props: RoundedArcProps) {
+export function RoundedArc(props: RoundedArcProps) {
     let ctx = props.ctx
     let capRadius = props.capRadiusRatio || 3
 

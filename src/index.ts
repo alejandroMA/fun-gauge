@@ -1,6 +1,10 @@
 import { merge } from 'ts-deepmerge'
 import hclInterpolator from './hclInterpolator'
-import { RoundedArcBoth, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
+import { RoundedArc, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
+
+const DEFAULT_LINE_WIDTH_MULT = 0.095
+const DEFAULT_COUNTER_WIDTH_MULT = 0.23
+const DEFAULT_CAP_RADIUS_RATIO = 3
 
 const MARKERS_WIDTH_MULT = 1.5
 const BACKGROUND_WIDTH_MULT = 1.2
@@ -28,13 +32,15 @@ export type FunGaugeProps = {
     colorSelectors?: ColorSelector[]
     animation?: {
         duration?: number // ms
-        animateText?: boolean
+        animateCounter?: boolean
         easeFunc?: (t: number) => number
     }
     theme?: {
         bgColor?: string // hex color
-        lineWidth?: number // percentage of width
-        textRenderFunc?: (currentValue: number) => string
+        lineWidthFunc?: (width: number) => number
+        counterRenderFunc?: (currentValue: number) => string
+        counterFontFunc?: (width: number) => string
+        labelsFontFunc?: (width: number) => string
     }
     firstRenderDelay?: number // ms
 }
@@ -65,13 +71,16 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         ],
         animation: {
             duration: 750,
-            animateText: true,
+            animateCounter: true,
             easeFunc: backOutEase
         },
         theme: {
             bgColor: '#ECECEC',
-            lineWidth: 0.095,
-            textRenderFunc: (val: number): string => `${Math.round(val)}%`
+            lineWidthFunc: (width: number) => Math.floor(width * DEFAULT_LINE_WIDTH_MULT),
+            counterRenderFunc: (val: number): string => `${Math.round(val)}%`,
+            counterFontFunc: (width: number): string =>
+                `bold ${Math.floor(width * DEFAULT_COUNTER_WIDTH_MULT)}px arial`,
+            labelsFontFunc: (width: number): string => `${Math.floor((width * DEFAULT_LINE_WIDTH_MULT) / 2)}px arial`
         },
         firstRenderDelay: 0
     }
@@ -177,7 +186,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         if (!ctx) {
             return
         }
-        let lineWidth = Math.round(W * props.theme?.lineWidth!)
+        let lineWidth = props.theme?.lineWidthFunc!(W) ?? Math.floor(W * DEFAULT_LINE_WIDTH_MULT)
 
         // Clear the canvas every time a chart is drawn
         ctx.clearRect(0, 0, W, H)
@@ -207,7 +216,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: startAngle,
             endAngle: endAngle,
-            capRadiusRatio: 3,
+            capRadiusRatio: DEFAULT_CAP_RADIUS_RATIO,
             capOffset: 0.5 / 3
         })
 
@@ -229,7 +238,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: startAngle,
             endAngle: endAngle,
-            capRadiusRatio: 3,
+            capRadiusRatio: DEFAULT_CAP_RADIUS_RATIO,
             capOffset: 0.5 / 3
         })
 
@@ -257,7 +266,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: Math.PI,
             endAngle: Math.PI * 1.5,
-            capRadiusRatio: 3,
+            capRadiusRatio: DEFAULT_CAP_RADIUS_RATIO,
             capOffset: 0.075
         })
 
@@ -270,12 +279,12 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: Math.PI * 1.5,
             endAngle: Math.PI * 2,
-            capRadiusRatio: 3,
+            capRadiusRatio: DEFAULT_CAP_RADIUS_RATIO,
             capOffset: 0.075
         })
 
         // Gauge arc
-        RoundedArcBoth({
+        RoundedArc({
             ctx: ctx,
             bgColor: renderedColor,
             x: W / 2,
@@ -284,31 +293,31 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             radius: radius,
             startAngle: Math.PI,
             endAngle: valueRadians,
-            capRadiusRatio: 3
+            capRadiusRatio: DEFAULT_CAP_RADIUS_RATIO
         })
 
         let textWidth = 0
         let text = ''
 
         // Counter
-        let textValue = props.animation?.animateText ? renderedValue : value
+        let textValue = props.animation?.animateCounter ? renderedValue : value
         textValue = clampCounterValue(textValue, oldValue, value)
-        text = props.theme?.textRenderFunc!(textValue) ?? ""
+        text = props.theme?.counterRenderFunc!(textValue) ?? ''
         ctx.fillStyle = '#fff'
-        ctx.font = `bold ${Math.round(W * 0.23)}px arial`
+        ctx.font = props.theme?.counterFontFunc!(W) ?? '10px arial'
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth)
 
         // 0 label
         ctx.fillStyle = '#BDBDBD'
-        ctx.font = `${Math.round(lineWidth / 2)}px arial`
+        ctx.font = props.theme?.labelsFontFunc!(W) ?? '2px arial'
         text = `${min}`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round((lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
         // 100 label
         ctx.fillStyle = '#BDBDBD'
-        ctx.font = `${Math.round(lineWidth / 2)}px arial`
+        ctx.font = props.theme?.labelsFontFunc!(W) ?? '2px arial'
         text = `${max}`
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(W - (lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
@@ -398,8 +407,6 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         },
         updateProps(newProps: FunGaugeProps): void {
             updateProps(newProps)
-
-            // lineWidth = Math.round(W * props.lineWidth);
         }
     } as FunGauge
 }

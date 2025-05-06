@@ -6,7 +6,9 @@ let dg1 = Gauge({
     canvasElement: document.querySelector('#g1') as HTMLCanvasElement,
     value: 40,
     theme: {
-        lineWidth: 0.12
+        lineWidthFunc: (width: number) => Math.floor(width * 0.12),
+        counterFontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+        labelsFontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`
     }
 })
 
@@ -15,13 +17,14 @@ let dg2 = Gauge({
     value: 800,
     animation: {
         duration: 500,
-        animateText: false,
+        animateCounter: false,
         easeFunc: (t: number) => t * t * t
     },
     colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
     theme: {
-        textRenderFunc: (val: number): string => `${Math.round(val)}`,
-        lineWidth: 0.05,
+        counterRenderFunc: (val: number): string => `${Math.round(val)}`,
+        lineWidthFunc: (width: number) => Math.floor(width * 0.05),
+        labelsFontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`,
         bgColor: '#CFD8DC'
     }
 })
