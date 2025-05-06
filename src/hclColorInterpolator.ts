@@ -5,7 +5,7 @@
 // import { hcl as colorHcl } from 'd3-color/src/lab'
 import { hcl as colorHcl } from 'd3-color'
 
-export default function hclInterpolator(start: string, end: string): (t: number) => string {
+export default function hclColorInterpolator(start: string, end: string): (t: number) => string {
     let startHCl = colorHcl(start)
     let endHCL = colorHcl(end)
     let h = hue(startHCl.h, endHCL.h)

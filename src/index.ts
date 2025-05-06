@@ -1,5 +1,5 @@
 import { merge } from 'ts-deepmerge'
-import hclInterpolator from './hclInterpolator'
+import hclColorInterpolator from './hclColorInterpolator'
 import { RoundedArc, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
 
 const DEFAULT_LINE_WIDTH_MULT = 0.095
@@ -151,7 +151,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         let difference = value - oldValue
 
         color = getColor(value, props.colorSelectors!)
-        let colorInterpolator = hclInterpolator(renderedColor, color)
+        let colorInterpolator = hclColorInterpolator(renderedColor, color)
         let startTime: DOMHighResTimeStamp | null = null
 
         function animation(now: DOMHighResTimeStamp) {
