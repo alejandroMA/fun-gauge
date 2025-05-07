@@ -8,5 +8,14 @@
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
         "typescript": "^5.7.3"
+    },
+    "pnpm": {
+        "supportedArchitectures": {
+            "os": ["current"],
+            "cpu": ["x64", "arm64"]
+        },
+        "overrides": {
+            "sharp": "0.33.3"
+        }
     }
 }
