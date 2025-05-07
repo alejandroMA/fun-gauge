@@ -1,4 +1,4 @@
-import { RoundedArcBoth, RoundedArcBGRight, RoundedArcBGLeft } from '../src/roundedArc'
+import { RoundedArc, RoundedArcBGRight, RoundedArcBGLeft } from '../src/roundedArc'
 
 const canvas = document.getElementById('g1') as HTMLCanvasElement
 const ctx = canvas?.getContext('2d')
@@ -58,7 +58,7 @@ if (canvas && ctx) {
         capRadiusRatio: 4
     })
 
-    // RoundedArcBoth({
+    // RoundedArc({
     //     ctx: ctx,
     //     bgColor: '#fff',
     //     x: 310,
@@ -70,7 +70,7 @@ if (canvas && ctx) {
     //     capRadiusRatio: 4
     // })
 
-    RoundedArcBoth({
+    RoundedArc({
         ctx: ctx,
         bgColor: '#f0f',
         x: 310,

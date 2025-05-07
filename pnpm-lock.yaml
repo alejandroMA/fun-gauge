@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       d3-color:
-        specifier: ^1.2.0
-        version: 1.4.1
+        specifier: ^3.1.0
+        version: 3.1.0
       ts-deepmerge:
         specifier: ^7.0.2
         version: 7.0.2
@@ -30,9 +30,6 @@ importers:
       npm-run-all:
         specifier: ^4.0.1
         version: 4.1.5
-      prettier:
-        specifier: ^1.15.3
-        version: 1.19.1
       rimraf:
         specifier: ^2.5.4
         version: 2.7.1
@@ -938,8 +935,9 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  d3-color@1.4.1:
-    resolution: {integrity: sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q==}
+  d3-color@3.1.0:
+    resolution: {integrity: sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==}
+    engines: {node: '>=12'}
 
   dargs@5.1.0:
     resolution: {integrity: sha512-Mr5OxT76pdJv7BbLq3hF1gSP8zxlCyDA1afj2Iab2MPKmdAKV+aKGC8YJv6cT8ItdFXAf798JJQD7jmbWZcYTQ==}
@@ -1757,11 +1755,6 @@ packages:
   postcss@8.5.1:
     resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
-
-  prettier@1.19.1:
-    resolution: {integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==}
-    engines: {node: '>=4'}
-    hasBin: true
 
   private@0.1.8:
     resolution: {integrity: sha512-VvivMrbvd2nKkiG38qjULzlc+4Vx4wm/whI9pQD35YrARNnhxeiRktSOhSukRLFNlzg6Br/cJPet5J/u19r/mg==}
@@ -3017,7 +3010,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  d3-color@1.4.1: {}
+  d3-color@3.1.0: {}
 
   dargs@5.1.0: {}
 
@@ -3868,8 +3861,6 @@ snapshots:
       nanoid: 3.3.8
       picocolors: 1.1.1
       source-map-js: 1.2.1
-
-  prettier@1.19.1: {}
 
   private@0.1.8: {}
 

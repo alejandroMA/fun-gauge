@@ -1,6 +1,6 @@
 import { merge } from 'ts-deepmerge'
 import hclColorInterpolator from './hclColorInterpolator'
-import { RoundedArc, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc.js'
+import { RoundedArc, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc'
 
 const DEFAULT_LINE_WIDTH_MULT = 0.095
 const DEFAULT_COUNTER_WIDTH_MULT = 0.23
@@ -36,9 +36,9 @@ export type FunGaugeProps = {
         easeFunc?: (t: number) => number
     }
     theme?: {
-        backgroundArcColor?: string, // hex color
-        counterColor?: string,
-        labelsColor?: string,
+        backgroundArcColor?: string // hex color
+        counterColor?: string
+        labelsColor?: string
         lineWidthFunc?: (width: number) => number
         counterRenderFunc?: (currentValue: number) => string
         counterFontFunc?: (width: number) => string
