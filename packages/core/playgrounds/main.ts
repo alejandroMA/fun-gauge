@@ -99,6 +99,22 @@ let gauge3 = Gauge({
     // ],
 })
 
+// setTimeout(() => {
+//     console.log("update selectors")
+//     gauge3.updateProps({
+//         colorSelectors: [
+//             { min: 0, max: 14.28, color: '#6e40aa' },
+//             { min: 14.28, max: 28.56, color: '#ee4395' },
+//             { min: 28.56, max: 42.84, color: '#ff8c38' },
+//             { min: 42.84, max: 57.12, color: '#aff05b' },
+//             { min: 57.12, max: 71.4, color: '#28ea8d' },
+//             { min: 71.4, max: 85.68, color: '#2f96e0' },
+//             { min: 85.68, max: 100, color: '#6e40aa' }
+//         ]
+//     })
+//     gauge3.forceRender()
+// }, 5 * 1000)
+
 let slider = document.querySelector('#rangeSlider') as HTMLInputElement
 slider.value = gauge3Value.toString()
 slider?.addEventListener(
