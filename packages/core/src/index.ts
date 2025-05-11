@@ -62,6 +62,32 @@ export type FunGauge = {
     updateProps: (newProps: FunGaugeProps) => void
 }
 
+export const defaultProps: Required<FunGaugeProps> = {
+    canvasElement: document.createElement('canvas') as HTMLCanvasElement,
+    width: 0,
+    value: 0,
+    colorSelectors: [
+        { color: '#F44336', min: 0, max: 33 },
+        { color: '#FFC107', min: 33, max: 66 },
+        { color: '#4CAF50', min: 66, max: 100 }
+    ],
+    animation: {
+        duration: 750,
+        animateCounter: true,
+        easeFunc: backOutEase
+    } as Required<GaugeAnimationProps>,
+    theme: {
+        backgroundArcColor: '#ECECEC',
+        counterColor: '#2A2A2A',
+        labelsColor: '#3A3A3A',
+        lineWidthFunc: (width: number) => Math.floor(width * DEFAULT_LINE_WIDTH_MULT),
+        counterRenderFunc: (val: number): string => `${Math.round(val)}%`,
+        counterFontFunc: (width: number): string => `bold ${Math.floor(width * DEFAULT_COUNTER_WIDTH_MULT)}px arial`,
+        labelsFontFunc: (width: number): string => `${Math.floor((width * DEFAULT_LINE_WIDTH_MULT) / 2)}px arial`
+    } as Required<GaugeThemeProps>,
+    firstRenderDelay: 0
+} as Required<FunGaugeProps>
+
 /**
  * FunGauge
  *
@@ -69,32 +95,7 @@ export type FunGauge = {
  * @returns the gauge object
  */
 export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
-    let props: Required<FunGaugeProps> = {
-        canvasElement: document.createElement('canvas'),
-        width: 0,
-        value: 0,
-        colorSelectors: [
-            { color: '#F44336', min: 0, max: 33 },
-            { color: '#FFC107', min: 33, max: 66 },
-            { color: '#4CAF50', min: 66, max: 100 }
-        ],
-        animation: {
-            duration: 750,
-            animateCounter: true,
-            easeFunc: backOutEase
-        },
-        theme: {
-            backgroundArcColor: '#ECECEC',
-            counterColor: '#2A2A2A',
-            labelsColor: '#3A3A3A',
-            lineWidthFunc: (width: number) => Math.floor(width * DEFAULT_LINE_WIDTH_MULT),
-            counterRenderFunc: (val: number): string => `${Math.round(val)}%`,
-            counterFontFunc: (width: number): string =>
-                `bold ${Math.floor(width * DEFAULT_COUNTER_WIDTH_MULT)}px arial`,
-            labelsFontFunc: (width: number): string => `${Math.floor((width * DEFAULT_LINE_WIDTH_MULT) / 2)}px arial`
-        },
-        firstRenderDelay: 0
-    }
+    let props: Required<FunGaugeProps> = merge(defaultProps as FunGaugeProps) as Required<FunGaugeProps>
     let canvas = document.createElement('canvas')
     let ctx: CanvasRenderingContext2D | null
     let W = 0
@@ -427,9 +428,10 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
                 render(renderedValue, renderedColor)
             })
         },
-
         forceRender(): void {
-            renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
+            renderingLoopID = requestAnimationFrame(() =>
+                render(renderedValue, getColor(renderedValue, props.colorSelectors))
+            )
         },
         updateProps(newProps: FunGaugeProps): void {
             if (process.env.NODE_ENV !== 'production') {
