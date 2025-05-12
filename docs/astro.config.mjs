@@ -24,7 +24,10 @@ export default defineConfig({
                     label: 'Reference',
                     autogenerate: { directory: 'reference' }
                 }
-            ]
+            ],
+            components: {
+                Hero: "./src/components/Hero.astro",
+            }
         })
     ]
 })

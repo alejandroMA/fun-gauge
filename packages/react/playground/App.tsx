@@ -28,8 +28,15 @@ function App() {
                         animation={{
                             duration: 750
                         }}
+                        theme={{
+                            backgroundArcColor: "#000"
+                        }}
                     />
                 </div>
+
+                {/* <div>
+                    <canvas style={{width: '100%'}} / >
+                </div> */}
 
                 <input
                     className='slider'

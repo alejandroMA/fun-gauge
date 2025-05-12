@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useEffect, useCallback } from 'react'
 import throttle from 'throttleit'
 import GaugeCore, {
@@ -8,11 +10,13 @@ import GaugeCore, {
     type GaugeAnimationProps
 } from '@fun-gauge/core'
 
+export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps }
+
 export type Props = {
     value: number
     colorSelectors?: ColorSelector[]
-    animation?: GaugeAnimationProps
     theme?: GaugeThemeProps
+    animation?: GaugeAnimationProps
     firstRenderDelay?: number
 }
 
@@ -25,26 +29,21 @@ export default function FunGauge(props: Props) {
         firstRenderDelay = defaultProps.firstRenderDelay
     } = props
 
+    let containerRef = useRef<HTMLElement>(null)
     let canvasRef = useRef<HTMLCanvasElement>(null)
     let gaugeCoreRef = useRef<FunGaugeCore>(null)
-    let prevValueRef = useRef<number>(value)
+    let resizeObserverRef = useRef<ResizeObserver>(null)
 
+    // render gauge
     let reRenderGauge = useCallback(
         throttle((value: number) => {
             if (gaugeCoreRef.current === null) {
                 return
             }
-
-            if (value !== prevValueRef.current) {
-                prevValueRef.current = value
-                gaugeCoreRef.current.animateTo(value)
-            } else {
-                gaugeCoreRef.current.forceRender()
-            }
+            gaugeCoreRef.current.animateTo(value)
         }, 51),
         []
     )
-
     useEffect(() => {
         if (gaugeCoreRef.current === null) {
             gaugeCoreRef.current = GaugeCore({
@@ -55,16 +54,45 @@ export default function FunGauge(props: Props) {
                 theme,
                 firstRenderDelay
             })
-
-            console.log(canvasRef.current?.parentElement?.getBoundingClientRect())
         }
 
         gaugeCoreRef.current.updateProps({ colorSelectors, animation, theme, firstRenderDelay })
-
         reRenderGauge(value)
-
-        // console.log('updated')
     }, [value, colorSelectors, animation, theme, firstRenderDelay, reRenderGauge])
 
-return <canvas ref={canvasRef} />
+    // ResizeObserver responsive design
+    let resizeGauge = useCallback(
+        throttle((width: number) => {
+            if (gaugeCoreRef.current === null) {
+                return
+            }
+
+            gaugeCoreRef.current.updateProps({
+                width: Math.floor(width)
+            })
+            gaugeCoreRef.current.forceRender()
+        }, 32),
+        []
+    )
+    useEffect(() => {
+        if (containerRef.current?.parentElement) {
+            resizeObserverRef.current = new ResizeObserver((entries) => {
+                let width = entries[0].contentRect.width
+                resizeGauge(width)
+            })
+            resizeObserverRef.current.observe(containerRef.current.parentElement)
+        }
+
+        return () => {
+            if (resizeObserverRef.current) {
+                resizeObserverRef.current.disconnect()
+            }
+        }
+    }, [resizeGauge])
+
+    return (
+        <article ref={containerRef} style={{ width: '100%' }}>
+            <canvas ref={canvasRef} />
+        </article>
+    )
 }
