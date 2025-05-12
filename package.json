@@ -5,8 +5,15 @@
     "author": "Alejandro Madariaga Angeles",
     "private": true,
     "license": "MIT",
+    "scripts": {
+        "build": "run-s build:core build:react build:docs",
+        "build:core": "cd packages/core && pnpm run build",
+        "build:react": "cd packages/react && pnpm run build",
+        "build:docs": "cd docs && pnpm i && pnpm run build"
+    },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
+        "npm-run-all": "^4.1.5",
         "typescript": "^5.7.3"
     },
     "pnpm": {

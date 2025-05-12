@@ -21,8 +21,8 @@
     },
     "scripts": {
         "lint": "biome lint",
-        "build": "rollup -c",
-        "build2": "tsup src/index.ts --format esm,cjs,iife --treeshake --dts --clean",
+        "build": "tsup src/index.ts --format esm,cjs,iife --treeshake --dts --clean",
+        "build2": "rollup -c",
         "dev": "vite playgrounds",
         "server": "serve ."
     },
