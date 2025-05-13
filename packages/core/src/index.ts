@@ -13,9 +13,9 @@ const BACKGROUND_WIDTH_MULT = 1.2
 export type FunGauge = {
     getCanvasElement: () => HTMLCanvasElement
     animateTo: (newValue: number) => void
-    renderValue: (newValue: number) => void
-    forceRender: () => void
     updateProps: (newProps: FunGaugeProps) => void
+    updateWidth: (newWidth: number) => void
+    forceRender: () => void
 }
 
 export type FunGaugeProps = {
@@ -48,24 +48,29 @@ export type GaugeAnimationProps = {
 export type GaugeThemeProps = {
     /** hexcolor defaults to '#ECECEC' */
     backgroundArcColor?: string
-    /** hexcolor defaults to '#3A3A3A' */
-    labelsColor?: string
     /** function that takes the canvas width and returns the line width for the gauge */
     lineWidthFunc?: (width: number) => number
-    /** function that takes takes the canvas width and returns ctx.font to be used on the canvas */
-    labelsFontFunc?: (width: number) => string
     counter?: ThemeCounterProps
+    labels?: ThemeLabelsProps
 }
 
 export type ThemeCounterProps = {
     /** hexcolor defaults to '#2A2A2A' */
     color?: string
-    /** function that takes the current value of the gauge and returns a string to display on the canvas */
-    renderFunc?: (currentValue: number) => string
     /** function that takes takes the canvas width and returns ctx.font to be used on the canvas */
     fontFunc?: (width: number) => string
+    /** function that takes the current value of the gauge and returns a string to display on the canvas */
+    renderFunc?: (currentValue: number) => string
 }
 
+export type ThemeLabelsProps = {
+    /** hexcolor defaults to '#3A3A3A' */
+    color?: string
+    /** function that takes takes the canvas width and returns ctx.font to be used on the canvas */
+    fontFunc?: (width: number) => string
+    /** function that takes the current value of the gauge and returns a string to display on the canvas */
+    renderFunc?: (currentValue: number) => string
+}
 
 export const defaultProps: Required<FunGaugeProps> = {
     canvasElement: document.createElement('canvas') as HTMLCanvasElement,
@@ -83,14 +88,17 @@ export const defaultProps: Required<FunGaugeProps> = {
     } as Required<GaugeAnimationProps>,
     theme: {
         backgroundArcColor: '#ECECEC',
-        labelsColor: '#3A3A3A',
         lineWidthFunc: (width: number) => Math.floor(width * DEFAULT_LINE_WIDTH_MULT),
-        labelsFontFunc: (width: number): string => `${Math.floor((width * DEFAULT_LINE_WIDTH_MULT) / 2)}px arial`,
         counter: {
             color: '#2A2A2A',
-            renderFunc: (val: number): string => `${Math.round(val)}%`,
-            fontFunc: (width: number): string => `bold ${Math.floor(width * DEFAULT_COUNTER_WIDTH_MULT)}px arial`
-        } as Required<ThemeCounterProps>
+            fontFunc: (width: number): string => `bold ${Math.floor(width * DEFAULT_COUNTER_WIDTH_MULT)}px arial`,
+            renderFunc: (val: number): string => `${Math.round(val)}%`
+        } as Required<ThemeCounterProps>,
+        labels: {
+            color: '#3A3A3A',
+            fontFunc: (width: number): string => `${Math.floor((width * DEFAULT_LINE_WIDTH_MULT) / 2)}px arial`,
+            renderFunc: (val: number): string => `${val}`
+        } as Required<ThemeLabelsProps>
     } as Required<GaugeThemeProps>,
     firstRenderDelay: 0
 } as Required<FunGaugeProps>
@@ -130,22 +138,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         color = props.colorSelectors[0].color
         renderedColor = props.colorSelectors[0].color
 
-        const ratio = window.devicePixelRatio
-
-        if (props.width && props.width > 0) {
-            W = props.width
-        } else {
-            W = canvas.getBoundingClientRect().width
-        }
-        H = W / 2 + Math.round(W * 0.15)
-
-        canvas.width = W * ratio
-        canvas.height = H * ratio
-        canvas.style.width = `${W}px`
-        canvas.style.height = `${H}px`
-        if (ctx) {
-            ctx.scale(ratio, ratio)
-        }
+        _updateWidth(props.width)
 
         renderedValue = 0
         renderedColor = props.colorSelectors[0].color
@@ -175,6 +168,25 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             }
         }
         props = merge.withOptions({ mergeArrays: false }, props as FunGaugeProps, newProps) as Required<FunGaugeProps>
+    }
+
+    function _updateWidth(newWidth: number): void {
+        const ratio = window.devicePixelRatio
+
+        if (newWidth && newWidth > 0) {
+            W = newWidth
+        } else {
+            W = canvas.getBoundingClientRect().width
+        }
+        H = W / 2 + Math.round(W * 0.15)
+
+        canvas.width = W * ratio
+        canvas.height = H * ratio
+        canvas.style.width = `${W}px`
+        canvas.style.height = `${H}px`
+        if (ctx) {
+            ctx.scale(ratio, ratio)
+        }
     }
 
     function animateTo(value: number): void {
@@ -355,17 +367,19 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, W / 2 - textWidth / 2, H - lineWidth)
 
+        let themeLabelsProps = themeProps.labels as Required<ThemeLabelsProps>
+
         // 0 label
-        ctx.fillStyle = themeProps.labelsColor
-        ctx.font = themeProps.labelsFontFunc(W)
-        text = `${min}`
+        ctx.fillStyle = themeLabelsProps.color
+        ctx.font = themeLabelsProps.fontFunc(W)
+        text = themeLabelsProps.renderFunc(min)
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round((lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
         // 100 label
-        ctx.fillStyle = themeProps.labelsColor
-        ctx.font = themeProps.labelsFontFunc(W)
-        text = `${max}`
+        ctx.fillStyle = themeLabelsProps.color
+        ctx.font = themeLabelsProps.fontFunc(W)
+        text = themeLabelsProps.renderFunc(max)
         textWidth = ctx.measureText(text).width
         ctx.fillText(text, Math.round(W - (lineWidth * MARKERS_WIDTH_MULT) / 2 - textWidth / 2), H)
 
@@ -424,33 +438,27 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
             value = newValue
             animateTo(value)
         },
-        forceRender(): void {
-            renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
-        },
         updateProps(newProps: FunGaugeProps): void {
             if (process.env.NODE_ENV !== 'production') {
                 invariant(
                     newProps.value === undefined,
-                    'FunGauge: updating value is not supported, use gauge.renderValue() or gauge.animateTo() instead'
+                    'FunGauge: value is not supported in gauge.updateProps(),' +
+                        ' use gauge.renderValue() or gauge.animateTo() instead'
                 )
                 invariant(newProps.canvasElement === undefined, 'FunGauge: updating canvasElement is not supported')
+                invariant(
+                    newProps.width === undefined,
+                    'FunGauge: width is not supported in gauge.updateProps(),' + ' use gauge.updateWidth() insted'
+                )
             }
 
             _updateProps(newProps)
-
-            if (newProps.width && newProps.width > 0) {
-                const ratio = window.devicePixelRatio
-                W = newProps.width
-                H = W / 2 + Math.round(W * 0.15)
-
-                canvas.width = W * ratio
-                canvas.height = H * ratio
-                canvas.style.width = `${W}px`
-                canvas.style.height = `${H}px`
-                if (ctx) {
-                    ctx.scale(ratio, ratio)
-                }
-            }
+        },
+        updateWidth(newWidth: number): void {
+            _updateWidth(newWidth)
+        },
+        forceRender(): void {
+            renderingLoopID = requestAnimationFrame(() => render(renderedValue, renderedColor))
         }
     } as FunGauge
 }

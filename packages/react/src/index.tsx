@@ -7,10 +7,12 @@ import GaugeCore, {
     type FunGauge as FunGaugeCore,
     type ColorSelector,
     type GaugeThemeProps,
-    type GaugeAnimationProps
+    type GaugeAnimationProps,
+    type ThemeCounterProps,
+    type ThemeLabelsProps
 } from '@fun-gauge/core'
 
-export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps }
+export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps, ThemeCounterProps, ThemeLabelsProps }
 
 export type Props = {
     value: number
@@ -18,6 +20,9 @@ export type Props = {
     theme?: GaugeThemeProps
     animation?: GaugeAnimationProps
     firstRenderDelay?: number
+
+    containerClassName?: string
+    canvasClassName?: string
 }
 
 export default function FunGauge(props: Props) {
@@ -26,7 +31,12 @@ export default function FunGauge(props: Props) {
         colorSelectors = defaultProps.colorSelectors,
         animation = defaultProps.animation,
         theme = defaultProps.theme,
-        firstRenderDelay = defaultProps.firstRenderDelay
+        firstRenderDelay = defaultProps.firstRenderDelay,
+
+        containerClassName = '',
+        canvasClassName = '',
+
+        ...restProps
     } = props
 
     let containerRef = useRef<HTMLElement>(null)
@@ -67,11 +77,9 @@ export default function FunGauge(props: Props) {
                 return
             }
 
-            gaugeCoreRef.current.updateProps({
-                width: Math.floor(width)
-            })
+            gaugeCoreRef.current.updateWidth(Math.floor(width))
             gaugeCoreRef.current.forceRender()
-        }, 32),
+        }, 48),
         []
     )
     useEffect(() => {
@@ -91,8 +99,8 @@ export default function FunGauge(props: Props) {
     }, [resizeGauge])
 
     return (
-        <article ref={containerRef} style={{ width: '100%' }}>
-            <canvas ref={canvasRef} />
+        <article className={containerClassName} ref={containerRef} style={{ width: '100%' }}>
+            <canvas className={canvasClassName} ref={canvasRef} {...restProps} />
         </article>
     )
 }

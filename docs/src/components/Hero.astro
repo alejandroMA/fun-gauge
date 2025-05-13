@@ -38,17 +38,29 @@ if (image) {
                 import throttle from 'throttleit'
                 import Hammer from 'hammerjs'
 
+                let themeName = document.documentElement.dataset.theme
+                let lightTheme = {
+                    backgroundArcColor: '#EEE',
+                    counter: {
+                        color: '#222',
+                    },
+                    labels: { color: '#333' },
+                }
+                let darkTheme = {
+                    backgroundArcColor: '#EEE',
+                    counter: {
+                        color: '#EEE',
+                    },
+                    labels: { color: '#BDBDBD' },
+                }
+
+                let canvasElement = document.querySelector('#gauge1') as HTMLCanvasElement
+
                 let gauge1Value = 80
                 let gauge1 = Gauge({
-                    canvasElement: document.querySelector('#gauge1') as HTMLCanvasElement,
+                    canvasElement: canvasElement,
                     value: gauge1Value,
-                    theme: {
-                        backgroundArcColor: '#EEE',
-                        counter: {
-                            color: '#EEE',
-                        },
-                        labelsColor: '#BDBDBD',
-                    },
+                    theme: themeName === 'light' ? lightTheme : darkTheme,
                     colorSelectors: [
                         { min: 0, max: 14.28, color: '#6e40aa' },
                         { min: 14.28, max: 28.56, color: '#ee4395' },
@@ -78,24 +90,17 @@ if (image) {
                     gauge1.updateProps({ animation: { duration: 750 } })
                 })
 
-                let resizeGauge = throttle((width) => {
-                    // console.log('resize')
-                    // console.log('width', width)
-                    gauge1.updateProps({
-                        width: Math.floor(width),
-                    })
-                    gauge1.forceRender()
-                }, 48)
-
-                let containerElement = document.querySelector('.hero-html')
                 // resize observer
-                let observer = new ResizeObserver((entries) => {
-                    for (const entry of entries) {
-                        let width = entry.contentRect.width
-                        resizeGauge(width)
-                    }
-                })
+                let containerElement = canvasElement.parentElement?.parentElement
                 if (containerElement) {
+                    let resizeGauge = throttle((width) => {
+                        gauge1.updateWidth(Math.floor(width))
+                        gauge1.forceRender()
+                    }, 48)
+                    let observer = new ResizeObserver((entries) => {
+                        let width = entries[0].contentRect.width
+                        resizeGauge(width)
+                    })
                     observer.observe(containerElement)
                 }
 
@@ -107,28 +112,12 @@ if (image) {
                 function onThemeChange() {
                     setTimeout(() => {
                         // get starlight theme after dom update
-                        let theme = document.documentElement.dataset.theme
+                        let themeName = document.documentElement.dataset.theme
 
-                        if (theme === 'dark') {
-                            gauge1.updateProps({
-                                theme: {
-                                    backgroundArcColor: '#EEE',
-                                    counter: {
-                                        color: '#EEE',
-                                    },
-                                    labelsColor: '#BDBDBD',
-                                },
-                            })
-                        } else if (theme === 'light') {
-                            gauge1.updateProps({
-                                theme: {
-                                    backgroundArcColor: '#EEE',
-                                    counter: {
-                                        color: '#222',
-                                    },
-                                    labelsColor: '#333',
-                                },
-                            })
+                        if (themeName === 'dark') {
+                            gauge1.updateProps({ theme: darkTheme })
+                        } else if (themeName === 'light') {
+                            gauge1.updateProps({ theme: lightTheme })
                         }
                         gauge1.forceRender()
                     }, 0)
