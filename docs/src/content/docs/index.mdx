@@ -1,24 +1,24 @@
 ---
 title: Fun Gauge
-description: A Gauge component for js and friends
+description: A Gauge component for the web
 template: splash
 hero:
-  tagline: A Gauge chart component for javascript and friends
-  image:
-    file: ../../assets/houston.webp
+  tagline: A Gauge component for the web
+
   actions:
     - text: Example Guide
       link: /guides/example/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import HomeGauges from '../../components/HomeGages.astro'
 
-## Next steps
+### Examples
+
+<HomeGauges />
+
+{/* ## Next steps
 
 <CardGrid stagger>
 	<Card title="Update content" icon="pencil">
@@ -33,4 +33,4 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 	<Card title="Read the docs" icon="open-book">
 		Learn more in [the Starlight Docs](https://starlight.astro.build/).
 	</Card>
-</CardGrid>
+</CardGrid> */}

@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 
+import tailwindcss from '@tailwindcss/vite'
+
 // https://astro.build/config
 export default defineConfig({
     integrations: [
@@ -26,8 +28,16 @@ export default defineConfig({
                 }
             ],
             components: {
-                Hero: "./src/components/Hero.astro",
-            }
+                Hero: './src/components/Hero.astro'
+            },
+            customCss: [
+                // Tailwind base styles:
+                './src/styles/global.css'
+            ]
         })
-    ]
+    ],
+
+    vite: {
+        plugins: [tailwindcss()]
+    }
 })

@@ -4,7 +4,7 @@ https://fun-gauge.dev
 
 -   A gauge component for the web
 -   120fps animations
--   Interruptible animations
+-   Interruptable animations
 -   Typescript
 -   React.js, Vue.js and Svelte bindings
 -   Customizable

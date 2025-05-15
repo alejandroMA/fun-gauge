@@ -35,22 +35,19 @@ if (image) {
             <input class="slider" id="rangeSlider" type="range" min="0" max="100" size="100" step="0.01" />
             <script>
                 import Gauge from '@fun-gauge/core'
+                import { bindResizeObserver, bindThemeChange } from '../scripts/gaugeUtils'
                 import throttle from 'throttleit'
                 import Hammer from 'hammerjs'
 
                 let themeName = document.documentElement.dataset.theme
                 let lightTheme = {
                     backgroundArcColor: '#EEE',
-                    counter: {
-                        color: '#222',
-                    },
+                    counter: { color: '#222' },
                     labels: { color: '#333' },
                 }
                 let darkTheme = {
                     backgroundArcColor: '#EEE',
-                    counter: {
-                        color: '#EEE',
-                    },
+                    counter: { color: '#EEE' },
                     labels: { color: '#BDBDBD' },
                 }
 
@@ -90,37 +87,14 @@ if (image) {
                     gauge1.updateProps({ animation: { duration: 750 } })
                 })
 
-                // resize observer
-                let containerElement = canvasElement.parentElement?.parentElement
-                if (containerElement) {
-                    let resizeGauge = throttle((width) => {
-                        gauge1.updateWidth(Math.floor(width))
-                        gauge1.forceRender()
-                    }, 48)
-                    let observer = new ResizeObserver((entries) => {
-                        let width = entries[0].contentRect.width
-                        resizeGauge(width)
-                    })
-                    observer.observe(containerElement)
-                }
+                bindThemeChange(gauge1, (theme: string) => {
+                    gauge1.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
+                    gauge1.forceRender()
+                })
 
-                // React to changes in system color scheme.
-                let themeSelectElement = document.querySelector('starlight-theme-select')
-                themeSelectElement?.querySelector('select')?.addEventListener('change', onThemeChange)
-                matchMedia(`(prefers-color-scheme: light)`).addEventListener('change', onThemeChange)
-
-                function onThemeChange() {
-                    setTimeout(() => {
-                        // get starlight theme after dom update
-                        let themeName = document.documentElement.dataset.theme
-
-                        if (themeName === 'dark') {
-                            gauge1.updateProps({ theme: darkTheme })
-                        } else if (themeName === 'light') {
-                            gauge1.updateProps({ theme: lightTheme })
-                        }
-                        gauge1.forceRender()
-                    }, 0)
+                let container = gauge1.getCanvasElement().parentElement?.parentElement
+                if (container) {
+                    bindResizeObserver(gauge1, container)
                 }
             </script>
         </div>

@@ -3,51 +3,69 @@
 ## Basic usage
 
 ```javascript
-var g1 = DGauge({
-    domNode: document.querySelector('#canvas1'),
-    title: 'Title',
-    value: 40
+import Gauge from '@fun-gauge/core'
+
+var gauge = Gauge({
+    canvasElement: document.querySelector('#canvas1'),
+    value: 40,
 })
 ```
 
 ## default options
 
 ```javascript
-{
-    domNode: document.createElement('canvas'),
-    title: '',
+import { backOutEase } from '@fun-gauge/core'
+
+export const defaultProps = {
+    canvasElement: document.createElement('canvas'),
+    width: 0,
     value: 0,
-    range: [0, 100]
-
     colorSelectors: [
-        {color: '#F44336', min: 0, max: 30},
-        {color: '#FFEB3B', min: 30, max: 60},
-        {color: '#4CAF50', min: 60, max: 100}
-    ]
-
+        { color: '#F44336', min: 0, max: 33 },
+        { color: '#FFC107', min: 33, max: 66 },
+        { color: '#4CAF50', min: 66, max: 100 },
+    ],
     animation: {
-        duration: 750, // miliseconds
-        textRender: (value, range) => {
-            return Math.round(value * (range[1] - range[0]) + range[0]) + '%'
-        },
-        animateText: true,
-        easeFunc: (t) => { return --t * t * ((0.5 + 1) * t + 0.5) + 1; }
+        duration: 750,
+        animateCounter: true,
+        easeFunc: backOutEase,
     },
-    bgcolor: '#ECECEC',
-    lineWidth: 0.095
+    theme: {
+        backgroundArcColor: '#ECECEC',
+        lineWidthFunc: (width: number) => Math.floor(width * 0.095),
+        counter: {
+            color: '#2A2A2A',
+            fontFunc: (width: number): string => `bold ${Math.floor(width * 0.23)}px arial`,
+            renderFunc: (val: number): string => `${Math.round(val)}%`,
+        },
+        labels: {
+            color: '#3A3A3A',
+            fontFunc: (width: number): string => `${Math.floor((width * 0.095) / 2)}px arial`,
+            renderFunc: (val: number): string => `${val}`,
+        },
+    },
+    firstRenderDelay: 0,
 }
 ```
 
 ## API
 
 ```javascript
-g1.setValue(13)
+gauge.animateTo(13)
 ```
 
 ```javascript
-g1.changeConfig(/* options */) // dosen't tiger re-render
+gauge.updateProps(/* new props */) // doesn't tiger re-render
 ```
 
 ```javascript
-g1.update() // trigers re-reder
+gauge.forceRender()
+```
+
+```javascript
+gauge.getCanvasElement()
+```
+
+```javascript
+gauge.updateWidth(300)
 ```
