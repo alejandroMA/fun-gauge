@@ -14,12 +14,12 @@ npm install @fun-gauge/react
 import Gauge from '@fun-gauge/react'
 
 function MyGauge(props) {
-    const { value, title } = props
+    const { title, value } = props
 
     return (
         <div>
             <h3>{title}</h3>
-            <FunGauge value={value} />
+            <Gauge value={value} />
         </div>
     )
 }
@@ -28,7 +28,7 @@ function MyGauge(props) {
 ## Default options
 
 ```typescript
-import { backOutEase } from '@fun-gauge/react'
+import FunGauge, { backOutEase } from '@fun-gauge/react'
 
 function MyGauge() {
     return (

@@ -6,6 +6,10 @@
 
 ## Basic usage
 
+```sh
+npm install @fun-gauge/core
+```
+
 ```javascript
 import Gauge from '@fun-gauge/core'
 

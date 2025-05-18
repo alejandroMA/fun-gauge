@@ -3,8 +3,14 @@
     "version": "1.0.0",
     "description": "A Gauge chart component for javascript and friends",
     "author": "Alejandro Madariaga Angeles",
-    "private": true,
+    "private": false,
     "license": "MIT",
+    "keywords": ["gauge", "chart", "canvas", "fun"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alejandroMA/fun-gauge",
+        "directory": "packages/core"
+    },
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "exports": {
