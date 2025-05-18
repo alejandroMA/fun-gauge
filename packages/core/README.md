@@ -1,6 +1,6 @@
 # Fun Gauge
 
-![Fun gauge](../../assets/fun-gauge.gif)
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge.gif)
 
 [fun-gauge.dev](https://fun-gauge.dev)
 
@@ -78,7 +78,6 @@ gauge.getCanvasElement()
 gauge.updateWidth(300)
 ```
 
-
 # Examples
 
-![Fun gauge](../../assets/fun-gauge-examples.gif)
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)

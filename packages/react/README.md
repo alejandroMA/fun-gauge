@@ -1,6 +1,6 @@
 # Fun Gauge React
 
-![Fun gauge](../../assets/fun-gauge.gif)
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge.gif)
 
 [fun-gauge.dev](https://fun-gauge.dev)
 
@@ -68,4 +68,4 @@ function MyGauge() {
 
 ## Examples
 
-![Fun gauge](../../assets/fun-gauge-examples.gif)
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)
