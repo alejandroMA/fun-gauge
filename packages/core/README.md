@@ -1,5 +1,9 @@
 # Fun Gauge
 
+![Fun gauge](../../assets/fun-gauge.gif)
+
+[fun-gauge.dev](https://fun-gauge.dev)
+
 ## Basic usage
 
 ```javascript
@@ -11,9 +15,9 @@ var gauge = Gauge({
 })
 ```
 
-## default options
+## Default options
 
-```javascript
+```typescript
 import { backOutEase } from '@fun-gauge/core'
 
 export const defaultProps = {
@@ -69,3 +73,8 @@ gauge.getCanvasElement()
 ```javascript
 gauge.updateWidth(300)
 ```
+
+
+# Examples
+
+![Fun gauge](../../assets/fun-gauge-examples.gif)

@@ -1,13 +1,20 @@
 # Fun Gauge
 
-https://fun-gauge.dev
+![Fun Gauge](./assets/fun-gauge.gif)
+
+[fun-gauge.dev](https://fun-gauge.dev)
 
 -   A gauge component for the web
 -   120fps animations
 -   Interruptable animations
 -   Typescript
--   React.js, Vue.js and Svelte bindings
+-   React.js bindings
+-   Vue.js and Svelte bindings soon
 -   Customizable
 -   Responsive design
 -   9kb minified and gzip
 -   100% free and Open Source
+
+# Examples
+
+![Fun Gauge Examples](./assets/fun-gauge-examples.gif)

@@ -4,6 +4,7 @@ import { useRef, useEffect, useCallback } from 'react'
 import throttle from 'throttleit'
 import GaugeCore, {
     defaultProps,
+    backOutEase,
     type FunGauge as FunGaugeCore,
     type ColorSelector,
     type GaugeThemeProps,
@@ -11,6 +12,8 @@ import GaugeCore, {
     type ThemeCounterProps,
     type ThemeLabelsProps
 } from '@fun-gauge/core'
+
+export { backOutEase }
 
 export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps, ThemeCounterProps, ThemeLabelsProps }
 
