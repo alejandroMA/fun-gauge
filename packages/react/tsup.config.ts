@@ -9,7 +9,7 @@ export default defineConfig([
         format: ['cjs', 'esm'],
         entry: ['./src/index.tsx'],
         skipNodeModulesBundle: true,
-        minify: true,
+        minify: false,
         bundle: false,
         clean: true,
         dts: true,

@@ -36,5 +36,10 @@
             "jsxQuoteStyle": "single",
             "trailingCommas": "none"
         }
+    },
+    "json": {
+        "parser": {
+            "allowComments": true
+        }
     }
 }

@@ -23,7 +23,7 @@ export function bindThemeChange(gauge: FunGauge, onThemeChange: (theme: string) 
     themeSelectElement?.querySelector('select')?.addEventListener('change', handleThemeChange)
     matchMedia('(prefers-color-scheme: light)').addEventListener('change', handleThemeChange)
 
-    function handleThemeChange() {
+    function handleThemeChange(): void {
         setTimeout(() => {
             // get starlight theme after dom update
             let theme = document.documentElement.dataset.theme
@@ -35,5 +35,5 @@ export function bindThemeChange(gauge: FunGauge, onThemeChange: (theme: string) 
 }
 
 export function rand(min: number, max: number): number {
-    return Math.round(min + Math.random() * (max - min))
+    return min + Math.random() * (max - min)
 }

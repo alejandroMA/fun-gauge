@@ -14,7 +14,7 @@ npm install @fun-gauge/react
 import Gauge from '@fun-gauge/react'
 
 function MyGauge(props) {
-    const { title, value } = props
+    const { title = 'Hello Gauge', value = 60 } = props
 
     return (
         <div>

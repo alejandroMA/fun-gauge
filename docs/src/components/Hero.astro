@@ -1,9 +1,9 @@
 ---
 import { LinkButton } from '@astrojs/starlight/components'
+import { Code } from '@astrojs/starlight/components'
 
 const { data } = Astro.locals.starlightRoute.entry
 const { title = data.title, tagline, actions = [] } = data.hero || {}
-
 ---
 
 <div class="hero">
@@ -16,6 +16,7 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
                 import { bindResizeObserver, bindThemeChange } from '../scripts/gaugeUtils'
                 import throttle from 'throttleit'
                 import Hammer from 'hammerjs'
+                
 
                 let themeName = document.documentElement.dataset.theme
                 let lightTheme = {
@@ -81,6 +82,15 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
         <div class="sl-flex copy">
             <h1 id={'landing-title'} data-page-title set:html={title} />
             {tagline && <div class="tagline" set:html={tagline} />}
+            <Code
+                code={`
+import Gauge from '@fun-gauge/react'
+
+function MyGauge() {
+    return <Gauge value={80} />
+}`}
+                lang="js"
+            />
         </div>
         {
             actions.length > 0 && (

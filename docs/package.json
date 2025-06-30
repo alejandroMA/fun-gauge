@@ -16,11 +16,13 @@
         "@tailwindcss/vite": "^4.1.7",
         "astro": "^5.6.1",
         "hammerjs": "^2.0.8",
+        "numeral": "^2.0.6",
         "sharp": "^0.33.3",
         "tailwindcss": "^4.1.7",
         "throttleit": "^2.1.0"
     },
     "devDependencies": {
-        "@types/hammerjs": "^2.0.46"
+        "@types/hammerjs": "^2.0.46",
+        "@types/numeral": "^2.0.5"
     }
 }

@@ -1,7 +1,7 @@
+import invariant from 'tiny-invariant'
 import { merge } from 'ts-deepmerge'
 import hclColorInterpolator from './hclColorInterpolator'
 import { RoundedArc, RoundedArcBGLeft, RoundedArcBGRight } from './roundedArc'
-import invariant from 'tiny-invariant'
 
 const DEFAULT_LINE_WIDTH_MULT = 0.095
 const DEFAULT_COUNTER_WIDTH_MULT = 0.23
@@ -199,7 +199,7 @@ export default function FunGauge(initialProps: FunGaugeProps): FunGauge {
         let colorInterpolator = hclColorInterpolator(renderedColor, color)
         let startTime: DOMHighResTimeStamp | null = null
 
-        function animation(now: DOMHighResTimeStamp) {
+        function animation(now: DOMHighResTimeStamp): void {
             if (!startTime) {
                 startTime = now
             }

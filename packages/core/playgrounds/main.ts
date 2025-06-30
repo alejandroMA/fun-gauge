@@ -6,14 +6,14 @@ let dg1 = Gauge({
     canvasElement: document.querySelector('#g1') as HTMLCanvasElement,
     value: 40,
     theme: {
-        lineWidthFunc: (width: number) => Math.floor(width * 0.12),
+        lineWidthFunc: (width: number): number => Math.floor(width * 0.12),
         counter: {
             color: '#EEE',
-            fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`
+            fontFunc: (width: number): string => `${Math.round(width * 0.24)}px courier`
         },
         labels: {
             color: '#BDBDBD',
-            fontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`
+            fontFunc: (width: number): string => `${Math.floor((width * 0.12) / 2)}px courier`
         }
     }
 })
@@ -24,20 +24,20 @@ let dg2 = Gauge({
     animation: {
         duration: 500,
         animateCounter: false,
-        easeFunc: (t: number) => t * t * t
+        easeFunc: (t: number): number => t * t * t
     },
     colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
     theme: {
         backgroundArcColor: '#CFD8DC',
-        lineWidthFunc: (width: number) => Math.floor(width * 0.05),
+        lineWidthFunc: (width: number): number => Math.floor(width * 0.05),
         counter: {
             color: '#EEE',
-            fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+            fontFunc: (width: number): string => `${Math.round(width * 0.24)}px courier`,
             renderFunc: (val: number): string => `${Math.round(val)}`
         },
         labels: {
             color: '#BDBDBD',
-            fontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`
+            fontFunc: (width: number): string => `${Math.floor((width * 0.05) / 2)}px arial`
         }
     }
 })

@@ -14,6 +14,7 @@
     "homepage": "https://fun-gauge.dev/",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
+    "sideEffects": false,
     "exports": {
         ".": {
             "import": {
