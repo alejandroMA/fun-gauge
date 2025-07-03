@@ -57,7 +57,7 @@ export type GaugeThemeProps = {
 export type ThemeCounterProps = {
     /** hexcolor defaults to '#2A2A2A' */
     color?: string
-    /** function that takes takes the canvas width and returns ctx.font to be used on the canvas */
+    /** function that takes the canvas width and returns ctx.font to be used on the canvas */
     fontFunc?: (width: number) => string
     /** function that takes the current value of the gauge and returns a string to display on the canvas */
     renderFunc?: (currentValue: number) => string
@@ -66,14 +66,14 @@ export type ThemeCounterProps = {
 export type ThemeLabelsProps = {
     /** hexcolor defaults to '#3A3A3A' */
     color?: string
-    /** function that takes takes the canvas width and returns ctx.font to be used on the canvas */
+    /** function that takes the canvas width and returns ctx.font to be used on the canvas */
     fontFunc?: (width: number) => string
-    /** function that takes the current value of the gauge and returns a string to display on the canvas */
+    /** function that takes the current value of the label and returns a string to display on the canvas */
     renderFunc?: (currentValue: number) => string
 }
 
 export const defaultProps: Required<FunGaugeProps> = {
-    canvasElement: document.createElement('canvas') as HTMLCanvasElement,
+    // canvasElement: document.createElement('canvas') as HTMLCanvasElement,
     width: 0,
     value: 0,
     colorSelectors: [

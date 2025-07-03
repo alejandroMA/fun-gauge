@@ -6,7 +6,7 @@
 
 -   A gauge component for the web
 -   120fps animations
--   Interruptable animations
+-   Interuptable animations
 -   Typescript
 -   React.js bindings
 -   Vue.js and Svelte bindings soon

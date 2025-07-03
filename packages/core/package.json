@@ -29,7 +29,7 @@
     },
     "scripts": {
         "lint": "biome lint",
-        "build": "tsup src/index.ts --format esm,cjs,iife --treeshake --dts --clean",
+        "build": "tsup",
         "build2": "rollup -c",
         "dev": "vite playgrounds",
         "server": "serve ."

@@ -81,11 +81,10 @@ export function RoundedArc(props: RoundedArcProps) {
 export function RoundedArcBGRight(props: RoundedArcProps) {
     let ctx = props.ctx
     let capRadius = props.capRadiusRatio || 3
+    let capOffset = props.capOffset || 0.1 // todo: how to handle this better?
 
-    // todo: calc offset not 0
-    // todo: use props.capOffset
-    // todo: 1.12?
-    let endAngleArc = props.endAngle - (Math.asin((props.lineWidth * 1.12) / capRadius / props.radius / 2) + 0)
+    // todo: 1.3?
+    let endAngleArc = props.endAngle - Math.asin((props.lineWidth * (1.3 - capOffset)) / capRadius / props.radius / 2)
     endAngleArc = Math.max(endAngleArc, props.startAngle)
     // endAngleArc = props.endAngle
 
@@ -101,7 +100,6 @@ export function RoundedArcBGRight(props: RoundedArcProps) {
     // Cap
     let X = props.x - props.radius * Math.cos(props.endAngle - Math.PI)
     let Y = props.y - props.radius * Math.sin(props.endAngle - Math.PI)
-    let capOffset = props.capOffset || 0.1 // todo: how to handle this better?
     X = X - props.lineWidth * capOffset * Math.sin(props.endAngle - Math.PI)
     Y = Y - props.lineWidth * capOffset * Math.cos(props.endAngle - Math.PI)
     let rotation = props.endAngle - Math.PI * 2
@@ -123,11 +121,13 @@ export function RoundedArcBGRight(props: RoundedArcProps) {
 export function RoundedArcBGLeft(props: RoundedArcProps) {
     let ctx = props.ctx
     let capRadius = props.capRadiusRatio || 3
+    let capOffset = props.capOffset || 0.1 // todo: how to handle this better?
 
     // todo: calc offset not 0
     // todo: use props.capOffset
     // todo: 1.12?
-    let startAngleArc = props.startAngle + (Math.asin((props.lineWidth * 1.12) / capRadius / props.radius / 2) + 0)
+    let startAngleArc =
+        props.startAngle + Math.asin((props.lineWidth * (1.3 - capOffset)) / capRadius / props.radius / 2)
     startAngleArc = Math.min(startAngleArc, props.endAngle)
     // startAngleArc = props.startAngle
 
@@ -143,7 +143,6 @@ export function RoundedArcBGLeft(props: RoundedArcProps) {
     // Cap
     let X = props.x - props.radius * Math.cos(props.startAngle - Math.PI)
     let Y = props.y - props.radius * Math.sin(props.startAngle - Math.PI)
-    let capOffset = props.capOffset || 0.1 // todo: how to handle this better?
     X = X + props.lineWidth * capOffset * Math.sin(props.startAngle - Math.PI)
     Y = Y + props.lineWidth * capOffset * Math.cos(props.startAngle - Math.PI)
     let rotation = props.startAngle - Math.PI
@@ -190,10 +189,11 @@ function RoundedCap(props: RoundedCapProps) {
     // todo: take into account triangle height to calc diff x correction of base and top
     let xCorrection = 0
     if (props.triangleSide === 'l') {
-        xCorrection = props.width / props.parentRadius
+        xCorrection = props.width * 0.009
     } else if (props.triangleSide === 'r') {
-        xCorrection = -(props.width / props.parentRadius)
+        xCorrection = -(props.width * 0.009)
     }
+    // xCorrection = 0
 
     ctx.beginPath()
     // left arc
@@ -241,9 +241,9 @@ function RoundedCap(props: RoundedCapProps) {
         // bottom triangle
         ctx.lineWidth = 0.01
         ctx.beginPath()
-        ctx.moveTo(props.x + props.width / 2 - xCorrection, props.y - props.radius)
+        ctx.moveTo(props.x + props.width / 2 + xCorrection, props.y - props.radius)
         ctx.lineTo(props.x - props.width / 2 + xCorrection, props.y - props.radius)
-        ctx.lineTo(props.x - props.width / 2 + xCorrection * 3, props.y - props.radius - triangleHeight)
+        ctx.lineTo(props.x - props.width / 2 + xCorrection * 2, props.y - props.radius - triangleHeight)
         ctx.lineTo(props.x + props.width / 2 - xCorrection, props.y - props.radius)
         ctx.fill()
         ctx.closePath()
@@ -260,9 +260,9 @@ function RoundedCap(props: RoundedCapProps) {
         // bottom triangle base
         ctx.lineWidth = 0.01
         ctx.beginPath()
-        ctx.moveTo(props.x - props.width / 2 - xCorrection, props.y - props.radius)
+        ctx.moveTo(props.x - props.width / 2 + xCorrection, props.y - props.radius)
         ctx.lineTo(props.x + props.width / 2 + xCorrection, props.y - props.radius)
-        ctx.lineTo(props.x + props.width / 2 + xCorrection * 3, props.y - props.radius - triangleHeight)
+        ctx.lineTo(props.x + props.width / 2 + xCorrection * 2, props.y - props.radius - triangleHeight)
         ctx.lineTo(props.x - props.width / 2 - xCorrection, props.y - props.radius)
         ctx.fill()
         ctx.closePath()

@@ -5,6 +5,7 @@ import throttle from 'throttleit'
 import GaugeCore, {
     defaultProps,
     backOutEase,
+    linearEase,
     type FunGauge as FunGaugeCore,
     type ColorSelector,
     type GaugeThemeProps,
@@ -13,7 +14,7 @@ import GaugeCore, {
     type ThemeLabelsProps
 } from '@fun-gauge/core'
 
-export { backOutEase }
+export { backOutEase, linearEase }
 
 export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps, ThemeCounterProps, ThemeLabelsProps }
 
