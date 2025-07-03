@@ -10,15 +10,17 @@ export function Interactive() {
     let [value, setValue] = useState(55)
 
     return (
-        <div>
+        <div className='bg-[#24273a]'>
             <Gauge
                 value={value}
-                animation={{
-                    duration: 350
+                animation={{ duration: 350 }}
+                theme={{
+                    counter: { color: '#EEE' },
+                    labels: { color: '#BDBDBD' }
                 }}
             />
             <input
-                className='w-full'
+                className='w-full accent-[#dfad49]'
                 type='range'
                 min='0'
                 max='100'
@@ -92,7 +94,7 @@ export function KitchenSink() {
     let [value, setValue] = useState(65)
 
     return (
-        <div>
+        <div className='bg-[#24273a]'>
             <Gauge
                 value={value}
                 colorSelectors={[
@@ -102,21 +104,22 @@ export function KitchenSink() {
                     { color: '#FFC107', min: 66, max: 73 },
                     { color: '#9160d1', min: 73, max: 100 }
                 ]}
+                animation={{ duration: 1250 }}
                 theme={{
-                    backgroundArcColor: '#525354',
+                    backgroundArcColor: '#1e2030',
                     labels: {
-                        color: '#2A2A2A',
+                        color: '#BDBDBD',
                         fontFunc: (width: number): string => `${Math.floor((width * 0.095) / 2)}px courier`
                     },
                     counter: {
-                        color: '#2A2A2A',
+                        color: '#EEE',
                         renderFunc: (val: number) => `${numeral(val).format('0.00')}%`,
                         fontFunc: (width: number) => `bold ${Math.round(width * 0.17)}px courier`
                     }
                 }}
             />
             <input
-                className='w-full'
+                className='w-full accent-[#dfad49]'
                 type='range'
                 min='0'
                 max='100'
