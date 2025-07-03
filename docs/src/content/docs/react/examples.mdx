@@ -126,7 +126,7 @@ export function ColorSelectors() {
         </TabItem>
     </Tabs>
 
-2. Use `numeral` with the `counter.renderFunc` prop:
+2. Use `numeral` with the `theme.counter.renderFunc` prop:
 
     ```javascript
     import Gauge from '@fun-gauge/react'
@@ -135,10 +135,12 @@ export function ColorSelectors() {
     export function CustomCounter() {
         return (
             <Gauge
-                value={65.46}
-                counter={{
-                    renderFunc: (val: number) => numeral(val).format('0.00'),
-                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`
+                value={68.46}
+                theme={{
+                    counter: {
+                        renderFunc: (val: number) => numeral(val).format('0.00'),
+                        fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`
+                    }
                 }}
             />
         )
