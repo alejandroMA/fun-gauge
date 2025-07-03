@@ -4,6 +4,7 @@ description: Examples of @fun-gauge/react
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
 import { Default, Interactive, ColorSelectors, CustomCounter, ThinStyle, KitchenSink } from './components/examples'
 
 ## Default
@@ -102,42 +103,49 @@ export function ColorSelectors() {
     </div>
 </div>
 
-Install 'numeral':
 
-<Tabs>
-    <TabItem label="npm">
-        ```sh
-        npm install numeral
-        ```
-    </TabItem>
-    <TabItem label="pnpm">
-        ```sh
-        pnpm add numeral
-        ```
-    </TabItem>
-    <TabItem label="yarn">
-        ```sh
-        yarn add numeral
-        ```
-    </TabItem>
-</Tabs>
+<Steps>
 
-```javascript
-import Gauge from '@fun-gauge/react'
-import numeral from 'numeral'
+1. Install `numeral`:
 
-export function CustomCounter() {
-    return (
-        <Gauge
-            value={65.46}
-            counter={{
-                renderFunc: (val: number) => numeral(val).format('0.00'),
-                fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`
-            }}
-        />
-    )
-}
-```
+    <Tabs>
+        <TabItem label="npm">
+            ```sh
+            npm install numeral
+            ```
+        </TabItem>
+        <TabItem label="pnpm">
+            ```sh
+            pnpm add numeral
+            ```
+        </TabItem>
+        <TabItem label="yarn">
+            ```sh
+            yarn add numeral
+            ```
+        </TabItem>
+    </Tabs>
+
+2. Use `numeral` with the `counter.renderFunc` prop:
+
+    ```javascript
+    import Gauge from '@fun-gauge/react'
+    import numeral from 'numeral'
+
+    export function CustomCounter() {
+        return (
+            <Gauge
+                value={65.46}
+                counter={{
+                    renderFunc: (val: number) => numeral(val).format('0.00'),
+                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`
+                }}
+            />
+        )
+    }
+    ```
+
+</Steps>
 
 
 ## Thin Style
