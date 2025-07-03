@@ -1,0 +1,71 @@
+---
+title: Getting Started
+description: Basic use of Fun Gauge with React
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import MyGauge from './components/gettingStated.tsx'
+
+
+## @fun-gauge/react:
+
+ - 120 fps
+ - lightweight
+ - customization
+ - responsive design
+ - typescript
+
+
+## How to use?
+
+<Steps>
+
+1. Install '@fun-gauge/react':
+
+
+    <Tabs>
+        <TabItem label="npm">
+            ```sh
+            npm install @fun-gauge/react
+            ```
+        </TabItem>
+        <TabItem label="pnpm">
+            ```sh
+            pnpm add @fun-gauge/react
+            ```
+        </TabItem>
+        <TabItem label="yarn">
+            ```sh
+            yarn add @fun-gauge/react
+            ```
+        </TabItem>
+    </Tabs>
+
+
+2. Use the component:
+
+    ```javascript
+    import Gauge from '@fun-gauge/react'
+
+    function MyGauge(props) {
+        const { title = 'Hello Gauge', value = 60 } = props
+
+        return (
+            <div>
+                <h4>{title}</h4>
+                <Gauge value={value} />
+            </div>
+        )
+    }
+    ```
+
+</Steps>
+
+
+
+<div className='flex justify-center'>
+    <div className='flex max-w-sm min-h-50 bg-[#eff1f5] p-2'>
+        <MyGauge client:visible="react" />
+    </div>
+</div>
