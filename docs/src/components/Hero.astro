@@ -16,7 +16,6 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
                 import { bindResizeObserver, bindThemeChange } from '../scripts/gaugeUtils'
                 import throttle from 'throttleit'
                 import Hammer from 'hammerjs'
-                
 
                 let themeName = document.documentElement.dataset.theme
                 let lightTheme = {
@@ -82,15 +81,21 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
         <div class="sl-flex copy">
             <h1 id={'landing-title'} data-page-title set:html={title} />
             {tagline && <div class="tagline" set:html={tagline} />}
-            {tagline && <Code
-                code={`
+            {
+                tagline && (
+                    <div class="block text-left">
+                        <Code
+                            code={`
 import Gauge from '@fun-gauge/react'
 
 function MyGauge() {
     return <Gauge value={80} />
 }`}
-                lang="js"
-            />}
+                            lang="js"
+                        />
+                    </div>
+                )
+            }
         </div>
         {
             actions.length > 0 && (

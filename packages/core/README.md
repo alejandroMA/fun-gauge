@@ -4,6 +4,13 @@
 
 [fun-gauge.dev](https://fun-gauge.dev)
 
+## @fun-gauge/core
+
+ - 120 fps
+ - lightweight 6.5kB min gizp
+ - customization
+ - typescript
+
 ## Basic usage
 
 ```sh
@@ -18,6 +25,11 @@ var gauge = Gauge({
     value: 40,
 })
 ```
+
+# Examples
+
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)
+
 
 ## Default options
 
@@ -69,7 +81,7 @@ gauge.animateTo(13)
 ```
 
 ```javascript
-gauge.updateProps(/* new props */) // doesn't tiger re-render
+gauge.updateProps(/* new props */)
 ```
 
 ```javascript
@@ -83,7 +95,3 @@ gauge.getCanvasElement()
 ```javascript
 gauge.updateWidth(300)
 ```
-
-# Examples
-
-![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)

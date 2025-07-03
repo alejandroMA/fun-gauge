@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Gauge, { linearEase } from '@fun-gauge/react'
 import numeral from 'numeral'
+import throttle from 'throttleit'
 
 export function Default() {
     return <Gauge value={60} />
@@ -92,6 +93,10 @@ export function ThinStyle() {
 
 export function KitchenSink() {
     let [value, setValue] = useState(65)
+    let throttledSetValue = useCallback(
+        throttle((v) => setValue(v), 50),
+        []
+    )
 
     return (
         <div className='bg-[#24273a]'>
@@ -126,7 +131,7 @@ export function KitchenSink() {
                 step='0.01'
                 value={value}
                 onChange={(ev) => {
-                    setValue(Number.parseInt(ev.target.value))
+                    throttledSetValue(Number.parseInt(ev.target.value))
                 }}
             />
         </div>

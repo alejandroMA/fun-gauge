@@ -6,13 +6,12 @@
 
 -   A gauge component for the web
 -   120fps animations
--   Interuptable animations
 -   Typescript
 -   React.js bindings
 -   Vue.js and Svelte bindings soon
 -   Customizable
 -   Responsive design
--   9kb minified and gzip
+-   7.5kB minified and gzip
 -   100% free and Open Source
 
 # Examples

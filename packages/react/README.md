@@ -4,6 +4,14 @@
 
 [fun-gauge.dev](https://fun-gauge.dev)
 
+## @fun-gauge/react
+
+ - 120 fps
+ - lightweight 7.5kB min gizp
+ - customization
+ - responsive design
+ - typescript
+
 ## Basic usage
 
 ```sh
@@ -24,6 +32,11 @@ function MyGauge(props) {
     )
 }
 ```
+
+## Examples
+
+![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)
+
 
 ## Default options
 
@@ -71,7 +84,3 @@ function MyGauge() {
     )
 }
 ```
-
-## Examples
-
-![Fun gauge](https://raw.githubusercontent.com/alejandroMA/fun-gauge/refs/heads/main/assets/fun-gauge-examples.gif)
