@@ -1,8 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
+import catppuccin from '@catppuccin/starlight'
 
 import tailwindcss from '@tailwindcss/vite'
+
+import react from '@astrojs/react'
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,15 +19,13 @@ export default defineConfig({
             ],
             sidebar: [
                 {
-                    label: 'Guides',
+                    label: 'React',
                     items: [
                         // Each item here is one entry in the navigation menu.
-                        { label: 'Example Guide', slug: 'guides/example' }
+                        { label: 'Getting Started', slug: 'react/getting-started' },
+                        { label: 'Examples', slug: 'react/examples' },
+                        { label: 'Props', slug: 'react/props' },
                     ]
-                },
-                {
-                    label: 'Reference',
-                    autogenerate: { directory: 'reference' }
                 }
             ],
             components: {
@@ -33,8 +34,15 @@ export default defineConfig({
             customCss: [
                 // Tailwind base styles:
                 './src/styles/global.css'
+            ],
+            plugins: [
+                catppuccin({
+                    dark: { flavor: 'macchiato', accent: 'yellow' },
+                    light: { flavor: 'latte', accent: 'mauve' }
+                })
             ]
-        })
+        }),
+        react()
     ],
 
     vite: {

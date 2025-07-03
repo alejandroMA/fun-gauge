@@ -5,6 +5,8 @@
     "compilerOptions": {
         "paths": {
             "@fun-gauge/*": ["../packages/*"]
-        }
+        },
+        "jsx": "react-jsx",
+        "jsxImportSource": "react"
     }
 }

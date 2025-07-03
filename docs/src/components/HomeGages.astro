@@ -263,22 +263,31 @@
         <script>
             import Gauge from '@fun-gauge/core'
             import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import numeral from 'numeral'
 
             let themeName = document.documentElement.dataset.theme
             let lightTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#2A2A2A' },
+                backgroundArcColor: '#3A3A3A',
+                counter: { 
+                    color: '#2A2A2A',
+                    renderFunc: (val: number) => numeral(val).format('0.00'),
+                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
+                },
                 labels: { color: '#3A3A3A' },
             }
             let darkTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#EEE' },
+                backgroundArcColor: '#3A3A3A',
+                counter: { 
+                    color: '#EEE',
+                    renderFunc: (val: number) => numeral(val).format('0.00'),
+                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
+                },
                 labels: { color: '#BDBDBD' },
             }
 
             let gauge = Gauge({
                 canvasElement: document.querySelector('#gauge7') as HTMLCanvasElement,
-                value: 50,
+                value: 65.42,
                 theme: themeName === 'light' ? lightTheme : darkTheme,
                 colorSelectors: [
                     { color: '#edf8e9', min: 0, max: 20 },
