@@ -3,121 +3,78 @@
         <canvas id="gauge2" class="gauge"></canvas>
 
         <script>
-            import Gauge from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#2A2A2A' },
-                labels: { color: '#3A3A3A' },
-            }
-            let darkTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#EEE' },
-                labels: { color: '#BDBDBD' },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge2') as HTMLCanvasElement,
                 value: 50,
-                theme: themeName === 'light' ? lightTheme : darkTheme,
+                lightTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: { color: '#2A2A2A' },
+                    labels: { color: '#3A3A3A' },
+                },
+                darkTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: { color: '#EEE' },
+                    labels: { color: '#BDBDBD' },
+                },
             })
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(0, 100))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(0, 100)), 3 * 1000, 12 * 1000)
         </script>
     </div>
     <div class="mt-0">
         <canvas id="gauge3" class="gauge"></canvas>
 
         <script>
-            import Gauge, { linearEase } from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
+            import { linearEase } from '@fun-gauge/core'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                backgroundArcColor: '#CFD8DC',
-                lineWidthFunc: (width: number) => Math.floor(width * 0.04),
-                counter: {
-                    color: '#2A2A2A',
-                    fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
-                    renderFunc: (val: number): string => `${Math.round(val)}`,
-                },
-                labels: {
-                    color: '#3A3A3A',
-                    fontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`,
-                },
-            }
-            let darkTheme = {
-                backgroundArcColor: '#CFD8DC',
-                lineWidthFunc: (width: number) => Math.floor(width * 0.04),
-                counter: {
-                    color: '#EEE',
-                    fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
-                    renderFunc: (val: number): string => `${Math.round(val)}`,
-                },
-                labels: {
-                    color: '#BDBDBD',
-                    fontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`,
-                },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge3') as HTMLCanvasElement,
                 value: 800,
+                colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
                 animation: {
                     duration: 500,
                     animateCounter: false,
                     easeFunc: linearEase,
                 },
-                colorSelectors: [{ color: '#607D8B', min: 200, max: 1000 }],
-                theme: themeName === 'light' ? lightTheme : darkTheme,
+                lightTheme: {
+                    backgroundArcColor: '#CFD8DC',
+                    lineWidthFunc: (width: number) => Math.floor(width * 0.04),
+                    counter: {
+                        color: '#2A2A2A',
+                        fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+                        renderFunc: (val: number): string => `${Math.round(val)}`,
+                    },
+                    labels: {
+                        color: '#3A3A3A',
+                        fontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`,
+                    },
+                },
+                darkTheme: {
+                    backgroundArcColor: '#CFD8DC',
+                    lineWidthFunc: (width: number) => Math.floor(width * 0.04),
+                    counter: {
+                        color: '#EEE',
+                        fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+                        renderFunc: (val: number): string => `${Math.round(val)}`,
+                    },
+                    labels: {
+                        color: '#BDBDBD',
+                        fontFunc: (width: number) => `${Math.floor((width * 0.05) / 2)}px arial`,
+                    },
+                },
             })
-
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(200, 1000))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(200, 1000)), 3 * 1000, 12 * 1000)
         </script>
     </div>
     <div class="mt-0">
         <canvas id="gauge4" class="gauge"></canvas>
 
         <script>
-            import Gauge from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#2A2A2A' },
-                labels: { color: '#3A3A3A' },
-            }
-            let darkTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: { color: '#EEE' },
-                labels: { color: '#BDBDBD' },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge4') as HTMLCanvasElement,
                 value: 90,
                 colorSelectors: [
@@ -127,110 +84,70 @@
                     { color: '#FFC107', min: 66, max: 73 },
                     { color: '#6e40aa', min: 73, max: 100 },
                 ],
-                theme: themeName === 'light' ? lightTheme : darkTheme,
                 animation: {
                     duration: 2000,
                 },
+                lightTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: { color: '#2A2A2A' },
+                    labels: { color: '#3A3A3A' },
+                },
+                darkTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: { color: '#EEE' },
+                    labels: { color: '#BDBDBD' },
+                },
             })
-
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(0, 100))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(0, 100)), 3 * 1000, 12 * 1000)
         </script>
     </div>
     <div class="mt-0">
         <canvas id="gauge5" class="gauge"></canvas>
 
         <script>
-            import Gauge from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                lineWidthFunc: (width: number) => Math.floor(width * 0.12),
-                counter: {
-                    color: '#2A2A2A',
-                    fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
-                },
-                labels: {
-                    color: '#3A3A3A',
-                    fontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`,
-                },
-            }
-            let darkTheme = {
-                lineWidthFunc: (width: number) => Math.floor(width * 0.12),
-                counter: {
-                    color: '#EEE',
-                    fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
-                },
-                labels: {
-                    color: '#BDBDBD',
-                    fontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`,
-                },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge5') as HTMLCanvasElement,
                 value: 40,
-                theme: themeName === 'light' ? lightTheme : darkTheme,
                 colorSelectors: [
                     { color: '#6e40aa', min: 0, max: 15 },
                     { color: '#ff5e63', min: 15, max: 85 },
                     { color: '#aff05b', min: 85, max: 100 },
                 ],
+                lightTheme: {
+                    lineWidthFunc: (width: number) => Math.floor(width * 0.12),
+                    counter: {
+                        color: '#2A2A2A',
+                        fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+                    },
+                    labels: {
+                        color: '#3A3A3A',
+                        fontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`,
+                    },
+                },
+                darkTheme: {
+                    lineWidthFunc: (width: number) => Math.floor(width * 0.12),
+                    counter: {
+                        color: '#EEE',
+                        fontFunc: (width: number) => `${Math.round(width * 0.24)}px courier`,
+                    },
+                    labels: {
+                        color: '#BDBDBD',
+                        fontFunc: (width: number) => `${Math.floor((width * 0.12) / 2)}px courier`,
+                    },
+                },
             })
-
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(0, 100))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(0, 100)), 3 * 1000, 12 * 1000)
         </script>
     </div>
     <div class="mt-0">
         <canvas id="gauge6" class="gauge"></canvas>
 
         <script>
-            import Gauge from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: {
-                    color: '#2A2A2A',
-                    fontFunc: (width: number) => `${Math.round(width * 0.18)}px arial`,
-                    renderFunc: (val: number): string => `${Math.round(val)} PSI`,
-                },
-                labels: { color: '#3A3A3A' },
-            }
-            let darkTheme = {
-                backgroundArcColor: '#ECECEC',
-                counter: {
-                    color: '#EEE',
-                    fontFunc: (width: number) => `${Math.round(width * 0.18)}px arial`,
-                    renderFunc: (val: number): string => `${Math.round(val)} PSI`,
-                },
-                labels: { color: '#BDBDBD' },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge6') as HTMLCanvasElement,
                 value: 90,
                 colorSelectors: [
@@ -240,55 +157,38 @@
                     { color: '#ff8c38', min: 66, max: 73 },
                     { color: '#F44336', min: 73, max: 100 },
                 ],
-                theme: themeName === 'light' ? lightTheme : darkTheme,
+                lightTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: {
+                        color: '#2A2A2A',
+                        fontFunc: (width: number) => `${Math.round(width * 0.18)}px arial`,
+                        renderFunc: (val: number): string => `${Math.round(val)} PSI`,
+                    },
+                    labels: { color: '#3A3A3A' },
+                },
+                darkTheme: {
+                    backgroundArcColor: '#ECECEC',
+                    counter: {
+                        color: '#EEE',
+                        fontFunc: (width: number) => `${Math.round(width * 0.18)}px arial`,
+                        renderFunc: (val: number): string => `${Math.round(val)} PSI`,
+                    },
+                    labels: { color: '#BDBDBD' },
+                },
             })
-
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(0, 100))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(0, 100)), 3 * 1000, 12 * 1000)
         </script>
     </div>
     <div class="mt-0">
         <canvas id="gauge7" class="gauge"></canvas>
 
         <script>
-            import Gauge from '@fun-gauge/core'
-            import { bindResizeObserver, bindThemeChange, rand } from '../scripts/gaugeUtils'
+            import { createHomeGauge, randFloat, randSetInterval } from '../scripts/gaugeUtils'
             import numeral from 'numeral'
 
-            let themeName = document.documentElement.dataset.theme
-            let lightTheme = {
-                backgroundArcColor: '#3A3A3A',
-                counter: { 
-                    color: '#2A2A2A',
-                    renderFunc: (val: number) => numeral(val).format('0.00'),
-                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
-                },
-                labels: { color: '#3A3A3A' },
-            }
-            let darkTheme = {
-                backgroundArcColor: '#3A3A3A',
-                counter: { 
-                    color: '#EEE',
-                    renderFunc: (val: number) => numeral(val).format('0.00'),
-                    fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
-                },
-                labels: { color: '#BDBDBD' },
-            }
-
-            let gauge = Gauge({
+            let gauge = createHomeGauge({
                 canvasElement: document.querySelector('#gauge7') as HTMLCanvasElement,
                 value: 65.42,
-                theme: themeName === 'light' ? lightTheme : darkTheme,
                 colorSelectors: [
                     { color: '#edf8e9', min: 0, max: 20 },
                     { color: '#bae4b3', min: 20, max: 40 },
@@ -296,19 +196,26 @@
                     { color: '#31a354', min: 60, max: 80 },
                     { color: '#006d2c', min: 80, max: 100 },
                 ],
+                lightTheme: {
+                    backgroundArcColor: '#3A3A3A',
+                    counter: {
+                        color: '#2A2A2A',
+                        renderFunc: (val: number) => numeral(val).format('0.00'),
+                        fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
+                    },
+                    labels: { color: '#3A3A3A' },
+                },
+                darkTheme: {
+                    backgroundArcColor: '#3A3A3A',
+                    counter: {
+                        color: '#EEE',
+                        renderFunc: (val: number) => numeral(val).format('0.00'),
+                        fontFunc: (width: number) => `bold ${Math.round(width * 0.2)}px arial`,
+                    },
+                    labels: { color: '#BDBDBD' },
+                },
             })
-            bindThemeChange(gauge, (theme: string) => {
-                gauge.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                gauge.forceRender()
-            })
-            let container = gauge.getCanvasElement()?.parentElement
-            if (container) {
-                bindResizeObserver(gauge, container)
-            }
-
-            setInterval(() => {
-                gauge.animateTo(rand(0, 100))
-            }, 3 * 1000)
+            randSetInterval(() => gauge.animateTo(randFloat(0, 100)), 3 * 1000, 12 * 1000)
         </script>
     </div>
 </article>

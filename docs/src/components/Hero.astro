@@ -12,30 +12,14 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
             <canvas id="gauge1" class="gauge"></canvas>
             <input class="slider" id="rangeSlider" type="range" min="0" max="100" size="100" step="0.01" />
             <script>
-                import Gauge from '@fun-gauge/core'
-                import { bindResizeObserver, bindThemeChange } from '../scripts/gaugeUtils'
+                import { createHomeGauge } from '../scripts/gaugeUtils'
                 import throttle from 'throttleit'
                 import Hammer from 'hammerjs'
+                const GAUGE_VALUE = 80
 
-                let themeName = document.documentElement.dataset.theme
-                let lightTheme = {
-                    backgroundArcColor: '#EEE',
-                    counter: { color: '#222' },
-                    labels: { color: '#333' },
-                }
-                let darkTheme = {
-                    backgroundArcColor: '#EEE',
-                    counter: { color: '#EEE' },
-                    labels: { color: '#BDBDBD' },
-                }
-
-                let canvasElement = document.querySelector('#gauge1') as HTMLCanvasElement
-
-                let gauge1Value = 80
-                let gauge1 = Gauge({
-                    canvasElement: canvasElement,
-                    value: gauge1Value,
-                    theme: themeName === 'light' ? lightTheme : darkTheme,
+                let gauge = createHomeGauge({
+                    canvasElement: document.querySelector('#gauge1') as HTMLCanvasElement,
+                    value: GAUGE_VALUE,
                     colorSelectors: [
                         { min: 0, max: 14.28, color: '#6e40aa' },
                         { min: 14.28, max: 28.56, color: '#ee4395' },
@@ -45,35 +29,35 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
                         { min: 71.4, max: 85.68, color: '#2f96e0' },
                         { min: 85.68, max: 100, color: '#6e40aa' },
                     ],
+                    lightTheme: {
+                        backgroundArcColor: '#EEE',
+                        counter: { color: '#222' },
+                        labels: { color: '#333' },
+                    },
+                    darkTheme: {
+                        backgroundArcColor: '#EEE',
+                        counter: { color: '#EEE' },
+                        labels: { color: '#BDBDBD' },
+                    },
                 })
 
                 let slider = document.querySelector('#rangeSlider') as HTMLInputElement
-                slider.value = gauge1Value.toString()
+                slider.value = GAUGE_VALUE.toString()
                 slider?.addEventListener(
                     'input',
                     throttle(() => {
-                        gauge1Value = Math.round(Number.parseFloat(slider?.value) * 100) / 100
-                        gauge1.animateTo(gauge1Value)
+                        let newGaugeValue = Math.round(Number.parseFloat(slider?.value) * 100) / 100
+                        gauge.animateTo(newGaugeValue)
                     }, 51)
                 )
 
                 let hammerSlider = new Hammer(slider)
                 hammerSlider.on('panstart', () => {
-                    gauge1.updateProps({ animation: { duration: 300 } })
+                    gauge.updateProps({ animation: { duration: 300 } })
                 })
                 hammerSlider.on('panend', () => {
-                    gauge1.updateProps({ animation: { duration: 750 } })
+                    gauge.updateProps({ animation: { duration: 750 } })
                 })
-
-                bindThemeChange(gauge1, (theme: string) => {
-                    gauge1.updateProps({ theme: theme === 'light' ? lightTheme : darkTheme })
-                    gauge1.forceRender()
-                })
-
-                let container = gauge1.getCanvasElement().parentElement?.parentElement
-                if (container) {
-                    bindResizeObserver(gauge1, container)
-                }
             </script>
         </div>
     </div>
