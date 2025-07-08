@@ -8,9 +8,9 @@ const { title = data.title, tagline, actions = [] } = data.hero || {}
 
 <div class="hero">
     <div class="hero-html sl-flex">
-        <div class="gauge-container">
-            <canvas id="gauge1" class="gauge"></canvas>
-            <input class="slider" id="rangeSlider" type="range" min="0" max="100" size="100" step="0.01" />
+        <div>
+            <canvas id="gauge1"></canvas>
+            <input class="w-full" id="rangeSlider" type="range" min="0" max="100" size="100" step="0.01" />
             <script>
                 import { createHomeGauge } from '../scripts/gaugeUtils'
                 import throttle from 'throttleit'
@@ -97,12 +97,7 @@ function MyGauge() {
 </div>
 
 <style>
-    .gauge {
-        width: 100%;
-    }
-    .slider {
-        width: 100%;
-    }
+   
     @layer starlight.core {
         .hero {
             display: grid;

@@ -46,7 +46,7 @@ export function createHomeGauge(options: {
     }
 
     // bind resize observer
-    let container = gauge.getCanvasElement()?.parentElement
+    let container = gauge.getCanvasElement()?.parentElement?.parentElement
     if (container) {
         let resizeGauge = throttle((width) => {
             gauge.updateWidth(Math.floor(width))
