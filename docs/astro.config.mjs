@@ -24,7 +24,7 @@ export default defineConfig({
                         // Each item here is one entry in the navigation menu.
                         { label: 'Getting Started', slug: 'react/getting-started' },
                         { label: 'Examples', slug: 'react/examples' },
-                        { label: 'Props', slug: 'react/props' },
+                        { label: 'Props', slug: 'react/props' }
                     ]
                 }
             ],

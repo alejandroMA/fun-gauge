@@ -5,7 +5,12 @@
     "author": "Alejandro Madariaga Angeles",
     "private": false,
     "license": "MIT",
-    "keywords": ["gauge", "chart", "canvas", "fun"],
+    "keywords": [
+        "gauge",
+        "chart",
+        "canvas",
+        "fun"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/alejandroMA/fun-gauge",

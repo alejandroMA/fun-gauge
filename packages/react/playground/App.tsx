@@ -29,7 +29,7 @@ function App() {
                             duration: 750
                         }}
                         theme={{
-                            backgroundArcColor: "#eee"
+                            backgroundArcColor: '#eee'
                         }}
                     />
                 </div>

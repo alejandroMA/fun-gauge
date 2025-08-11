@@ -1,11 +1,17 @@
 {
     "name": "@fun-gauge/react",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A Gauge chart component for react.js",
     "author": "Alejandro Madariaga Angeles",
     "private": false,
     "license": "MIT",
-    "keywords": ["gauge", "react", "chart", "canvas", "fun"],
+    "keywords": [
+        "gauge",
+        "react",
+        "chart",
+        "canvas",
+        "fun"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/alejandroMA/fun-gauge",
