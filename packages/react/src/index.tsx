@@ -18,7 +18,7 @@ export { backOutEase, linearEase }
 
 export type { ColorSelector, GaugeThemeProps, GaugeAnimationProps, ThemeCounterProps, ThemeLabelsProps }
 
-export type Props = {
+export default function FunGauge(props: {
     value: number
     colorSelectors?: ColorSelector[]
     theme?: GaugeThemeProps
@@ -27,9 +27,7 @@ export type Props = {
 
     containerClassName?: string
     canvasClassName?: string
-}
-
-export default function FunGauge(props: Props) {
+}) {
     const {
         value = defaultProps.value,
         colorSelectors = defaultProps.colorSelectors,
