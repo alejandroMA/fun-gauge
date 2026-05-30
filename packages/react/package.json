@@ -18,6 +18,9 @@
         "directory": "packages/react"
     },
     "homepage": "https://fun-gauge.dev/",
+    "publishConfig": {
+        "access": "public"
+    },
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.mts",
