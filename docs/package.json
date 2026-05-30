@@ -7,7 +7,8 @@
         "start": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
-        "astro": "astro"
+        "astro": "astro",
+        "wrangler": "wrangler"
     },
     "dependencies": {
         "@astrojs/react": "^4.3.0",
@@ -26,7 +27,8 @@
         "react-dom": "^19.1.0",
         "sharp": "^0.33.3",
         "tailwindcss": "^4.1.7",
-        "throttleit": "^2.1.0"
+        "throttleit": "^2.1.0",
+        "wrangler": "^4.95.0"
     },
     "devDependencies": {
         "@types/hammerjs": "^2.0.46",
